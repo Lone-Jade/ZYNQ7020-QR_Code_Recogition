@@ -12,6 +12,8 @@ src/vendor/kernel-sdk.tar.gz*
 src/platform/base_boot/u-boot.elf
 src/platform/base_boot/zImage
 src/platform/base_boot/boot.scr
+# XSCT/Vitis temporary workspace (auto-generated, machine-specific)
+.Xil/
 build/reference/*.dcp
 build/reference/*.bit
 build/reference/*.xsa

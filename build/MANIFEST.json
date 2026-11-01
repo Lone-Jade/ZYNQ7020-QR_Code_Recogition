@@ -1,9 +1,8 @@
 {
   "algorithm": "SHA-256",
   "sha256": {
-    ".Xil/XSCT-63-xiwei-virtual-machine/system.bda": "02e5ef603973f2c9650d73698a05f2d45ee1542fef3744b56a82a6a80737c4a8",
     ".gitattributes": "a3c63d357850da1b3cab38ad2227861c50f23a0f152746e2d083e22880924c55",
-    ".gitignore": "4fa3fb94b61a94d29b62c00b5f64b7bd84fd3407e266a674c1c5a31c8741736c",
+    ".gitignore": "79ce2a980cf37bc9958d02ab878e8cc60145bf82d8b097bc793e0af26321a66b",
     "DEPENDENCIES.md": "49fafa58ec5acc595e9e57810626a32c11e3ed58315bdc561204199012cdf9b2",
     "README.md": "71006b43d59fe2e35d926fe7d7752e58ea4a1d840c973925a1358ab1ed96c7f3",
     "board/boot_files.py": "1f7d17805d4c1f615ba74be1f6c72ee4b1ae05899e74407d5f6caaba93dbd9fa",
