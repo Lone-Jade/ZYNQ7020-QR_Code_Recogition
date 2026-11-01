@@ -1,0 +1,154 @@
+{
+  "passed": true,
+  "reference_sha256": "eaea8883dedb47230971b2faf4d179e02f9fe8dfc18ed712fb88c3037a6d3d6a",
+  "full_cdc_sha256": "2b7e6300683094cbbdfad8b4c31fc7bffc9bff1c8693965b9501ae83c12d4bd4",
+  "baseline_reference_sha256": "3e74698ab900501db5d4fe9f27da66e3a9016b9fc64a4824787f4b923189621f",
+  "counts": {
+    "CDC-3": {
+      "severity": "Info",
+      "count": 48
+    },
+    "CDC-6": {
+      "severity": "Warning",
+      "count": 9
+    },
+    "CDC-8": {
+      "severity": "Warning",
+      "count": 1
+    },
+    "CDC-9": {
+      "severity": "Info",
+      "count": 1
+    },
+    "CDC-10": {
+      "severity": "Critical",
+      "count": 2
+    },
+    "CDC-12": {
+      "severity": "Critical",
+      "count": 2
+    },
+    "CDC-13": {
+      "severity": "Critical",
+      "count": 1
+    },
+    "CDC-15": {
+      "severity": "Warning",
+      "count": 942
+    }
+  },
+  "baseline_counts": {
+    "CDC-3": {
+      "severity": "Info",
+      "count": 48
+    },
+    "CDC-6": {
+      "severity": "Warning",
+      "count": 9
+    },
+    "CDC-8": {
+      "severity": "Warning",
+      "count": 1
+    },
+    "CDC-9": {
+      "severity": "Info",
+      "count": 1
+    },
+    "CDC-10": {
+      "severity": "Critical",
+      "count": 2
+    },
+    "CDC-12": {
+      "severity": "Critical",
+      "count": 2
+    },
+    "CDC-13": {
+      "severity": "Critical",
+      "count": 1
+    },
+    "CDC-15": {
+      "severity": "Warning",
+      "count": 430
+    }
+  },
+  "critical_rows": [
+    [
+      "1",
+      "CDC-13",
+      "Critical",
+      "1-bit CDC path on a non-FD primitive",
+      "0",
+      "False Path",
+      "qr_desktop_top/system_wrapper/system/system_display_vdma_0/system_display_vdma_0_axi_vdma/system_display_vdma_0_axi_vdma_mm2s_linebuf/system_display_vdma_0_axi_vdma_afifo_builtin/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>",
+      "qr_desktop_top/system_wrapper/system/system_display_vdma_0/system_display_vdma_0_axi_vdma/system_display_vdma_0_axi_vdma_mm2s_linebuf/system_display_vdma_0_axi_vdma_afifo_builtin/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>/<hidden>"
+    ],
+    [
+      "2",
+      "CDC-10",
+      "Critical",
+      "Combinational logic detected before a synchronizer",
+      "2",
+      "Max Delay Datapath Only",
+      "fork_i/display/fault_reg/C",
+      "system_i/system_i/display_osd/inst/fault0_reg/D"
+    ],
+    [
+      "3",
+      "CDC-12",
+      "Critical",
+      "Multi-clock fan-in to synchronizer",
+      "2",
+      "Max Delay Datapath Only",
+      "fork_i/display/fault_reg/C",
+      "system_i/system_i/display_osd/inst/fault0_reg/D"
+    ],
+    [
+      "551",
+      "CDC-10",
+      "Critical",
+      "Combinational logic detected before a synchronizer",
+      "2",
+      "Max Delay Datapath Only",
+      "system_i/system_i/display_identity/inst/rf1_reg/C",
+      "system_i/system_i/display_osd/inst/fault0_reg/D"
+    ],
+    [
+      "552",
+      "CDC-12",
+      "Critical",
+      "Multi-clock fan-in to synchronizer",
+      "2",
+      "Max Delay Datapath Only",
+      "system_i/system_i/display_identity/inst/rf1_reg/C",
+      "system_i/system_i/display_osd/inst/fault0_reg/D"
+    ]
+  ],
+  "new_descriptor_warning_rows": 512,
+  "new_descriptor_constraint": {
+    "index": 22,
+    "sources": 1024,
+    "targets": 512,
+    "requirement_ns": 9.7,
+    "slack_ns": 7.917
+  },
+  "source_proof_sha256": {
+    "source/rtl/r4_scan_identity.v": "9dd02b8adc5e030c5a43549c9c1743685e2c72b0d7c40b8da9a4099aec9cfb34",
+    "source/rtl/r4_display_memory_guard.v": "f6328fbd84b966fd21b6fe2f617150e4dbd39027b7f301355e20cc52646e9644",
+    "source/rtl/r4_camera_fork.v": "f4b0bf8d085125e5209a24e2c003a34ec926ef457c73f083a8e474ad2f1ff474",
+    "hardware_project/pynq_ax7021b/hardware/desktop/r4_display_bd.tcl": "c5ec536132f96f2e29c542a411bed45dc05af2df46cb485f3e31439fb8638599"
+  },
+  "critical_review": [
+    {
+      "scope": "VDMA built-in async FIFO",
+      "finding": "Same CDC-13 vendor primitive diagnostic as original R4; no RTL or IP parameter change"
+    },
+    {
+      "scope": "fault OR into OSD fault0/fault1 synchronizer",
+      "finding": "Same CDC-10/12 classes/counts as baseline. Camera fault source unchanged. The ACLK representative startpoint changes from display_guard/fault_reg to display_identity/rf1_reg; both are inputs of the same unchanged memory-fault OR cone. Diagnostic is not a new annotation crossing; preserved fail-to-black two-flop fault synchronizer."
+    }
+  ],
+  "descriptor_review": "Both inactive descriptor banks are frozen while commit is pending. A two-flop synchronized request is acted on only at vertical blank, then acknowledged. Source bank is not writable until synchronized acknowledgement. The 9.7 ns data and skew bounds are effective/met on the selected final routed design. XSim checks pending immutability and whole-scene atomicity. No timing exception or waiver added.",
+  "missing_internal_clock_or_endpoint": false,
+  "inherited_io_delay_notes": "14 no_input_delay and 7 no_output_delay entries retained; camera/I2C/reset/forwarded-clock ports. External I/O timing was not newly certified.",
+  "scope": "Protocol/topology review of final routed CDC diagnostics; not a zero-warning CDC claim"
+}

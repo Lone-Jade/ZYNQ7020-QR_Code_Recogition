@@ -1,0 +1,13 @@
+[Unit]
+Description=C04 R4 Gray8 recognition with PL status and successful QR annotations
+Requires=c04-r4-camera.service
+BindsTo=c04-r4-camera.service
+After=c04-r4-camera.service
+
+[Service]
+Type=simple
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/local/share/pynq-venv/bin/python -u -B /opt/zynq-qr/runtime/launch_r4.py --run --hdmi --backend pl-grid --frames 0 --seconds 31536000 --status-every 300 --decode-budget-us 60000
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15

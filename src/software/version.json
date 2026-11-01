@@ -1,0 +1,12 @@
+{
+  "id": "C04-R4-FINALIZE",
+  "level": 4,
+  "baseline": "original C04 / linux_bringup/20261021_001728",
+  "parent_commit": "360d1a09",
+  "change": "R4 display fix4: local 9-character labels, nearest-owner clearance, edge glyph offsets and hardware priority ordering; unchanged decoded-corner box policy",
+  "display_abi": 2,
+  "source_tag_abi": 1,
+  "deployed": false,
+  "board_tested": false,
+  "display_revision": "display-fix4"
+}

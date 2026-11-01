@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/local/share/pynq-venv/bin/python -B /usr/local/lib/zynq-qr-camera/camera_control.py "$@"

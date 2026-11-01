@@ -1,0 +1,14 @@
+display_vdma 0x43000000 0x00010000
+qr_capture_vdma 0x43010000 0x00010000
+qr_preprocess_0 0x43C00000 0x00010000
+camera_iic 0x41600000 0x00010000
+hdmi_iic 0x41610000 0x00010000
+camera_reset 0x41210000 0x00010000
+camera_arm 0x41220000 0x00010000
+capture_timing 0x43C20000 0x00010000
+fitness 0x43C10000 0x00010000
+fitness_reset 0x41230000 0x00010000
+fitness=0x43C10000 reset=0x41230000 memory=HP2 interrupt=In5/SPI34 clock=FCLK0@100MHz
+interrupts In0=display_vdma In1=hdmi_iic In2=qr_capture_vdma In3=qr_preprocess In4=camera_iic
+memory display=HP0 qr_capture=HP1
+clocks desktop=FCLK0@100MHz qr_compute=FCLK1@76.923080MHz

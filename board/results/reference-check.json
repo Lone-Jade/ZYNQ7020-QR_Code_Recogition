@@ -1,0 +1,23 @@
+{
+  "kernel": "6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68",
+  "runtime_manifest_sha256": "9de5a17bda837cecab830cc661046ed31f5d5a7b51b3fee7e0155c61ec96a936",
+  "files": {
+    "/boot/BOOT.BIN": "0f5635cd7fa7e241b378b10d00d01a1e61d0fe18f97f95c35a1a42f599be8f4f",
+    "/boot/image.ub": "0cd76d257bfad2117372d0b68abc481f4ad11679ad718c53cf3a1138b56369a2",
+    "/boot/boot.scr": "4c7ed60cad10872084bf727b2c9ab0eca9eab992635cf3abf67dfe7ed9cc7807",
+    "/usr/lib/modules/6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68/updates/ax7021b_camera_display.ko": "881a21c161f29cf44614d074991b41bc4c6fe1a505994a177f4a9660c447d692",
+    "/usr/lib/modules/6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68/updates/ax7021b_qr_capture.ko": "70dc1a2d412dab02c4cd6fa22a0d1c30ee0cef7f89e97a22ac8e24be41fdb374",
+    "/usr/lib/modules/6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68/updates/ax7021b_qr_fitness.ko": "c1f18d56835ab0201d7716ce94f24ba26a0f0df52e956a2ddcf35a38bd67b794"
+  },
+  "services": {
+    "c04-r4-camera.service": "inactive",
+    "c04-r4-recognition.service": "inactive"
+  },
+  "camera_addon_present": true,
+  "automatic_profile_configured": false,
+  "checked_on": "2026-10-30",
+  "inspection": "read-only file and service comparison",
+  "reference_files_match": true,
+  "optical_accuracy_measured": false,
+  "packaged_default_aec_agc_deployed": false
+}

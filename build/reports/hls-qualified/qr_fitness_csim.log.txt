@@ -1,0 +1,6 @@
+INFO: [SIM 2] *************** CSIM start ***************
+   Compiling ../../../../test_score.cpp in debug mode
+   Generating csim.exe
+WHOLE_GRID_REFERENCE_PASS grids=3 scores=243 mode=full-feature-hls-model
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************

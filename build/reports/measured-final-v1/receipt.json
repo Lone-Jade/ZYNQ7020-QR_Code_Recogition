@@ -1,0 +1,49 @@
+{
+  "label": "final-v1",
+  "fitness": true,
+  "xsa": "build/final-v1/output/ax7021b_linux_qr_desktop.xsa",
+  "xsa_sha256": "c115c0c7d532399d71d72dd2f27c0f02de62d7d7b879df2646b807a8f520ef9f",
+  "bit_sha256": "34e4588ddb8208aac2da1fc48e5e1dfa9e25078a2438c70c07228b96410e8e16",
+  "setup_wns_ns": 0.072,
+  "hold_whs_ns": 0.042,
+  "drc_errors": 0,
+  "bus_skew_violations": 0,
+  "unconstrained_internal_endpoints": 0,
+  "methodology_critical_warnings": [
+    "TIMING-4   Critical Warning  Invalid primary clock redefinition on a clock tree         1",
+    "TIMING-27  Critical Warning  Invalid primary clock on hierarchical pin                  1"
+  ],
+  "hardware_addresses_checked": true,
+  "hardware_clocks_checked": true,
+  "deployed": false,
+  "reports": {
+    "timing_summary.txt": "6536732e161939cda1bb3efb93448d235943171278a1aefa4a72cb17b2efcec7",
+    "fitness_input_sha256.json": "a6bc45673d0b7e6ddc763f670a12c3f1648449e1a430b342e5cdd09be7ab0a6c",
+    "physical_implementation.json": "622d4439a42725a5092d52e422adfc9fe1811c58e3bf37381d5129bb8a36054e",
+    "utilization.txt": "344a17fb4455f9cd3477692cf580e8a6c8791fd60e8c6c0c2682fe9aca04ba63",
+    "io.txt": "632ec70543cdda544d91fc6c80a2debd34aa6ee913139a2b068fce6c688fb2ae",
+    "drc.txt": "a4a6c0287934bb0a03ad7bcdbd5d7aad385ed974e80172542bc09fab13be968f",
+    "qr_address_interrupt_audit.txt": "ce7390384521266d3aaeab29cb9d4fc52a1312eca7dd334e46091f04a9c7855b",
+    "input_sha256.json": "32deb2bd2f573633a01d665471d96d9fd3cd3f5fa62aad3cc2133bdb3c89d9aa",
+    "clocks.txt": "77b04b1400a67bb907b8f1a051db3e81787f0a83bfa5caaf83eae8bd46469ba7",
+    "bus_skew.txt": "b07324e69368830f93b6110553da9f8ac930cf0ba1b3c5dd7ecc60352f7716b2",
+    "validated_system.tcl": "bf14d474ea0138bdfba681e55e45a0060bbf950955107b8ed9e25763cfa9088a"
+  },
+  "resource_percent": {
+    "Slice LUTs": 85.03,
+    "Block RAM Tile": 65.71,
+    "DSPs": 45.0
+  },
+  "resource_limits_percent": {
+    "Slice LUTs": 100,
+    "Block RAM Tile": 85,
+    "DSPs": 85
+  },
+  "capture_axis_bits": 32,
+  "configuration": {
+    "capture_layout": "gray",
+    "payload_bram": 1,
+    "fitness_vlnv": "xiwei.org:qr:qr_fitness:2.0",
+    "clock_constraints_changed": false
+  }
+}

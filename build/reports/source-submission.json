@@ -1,0 +1,126 @@
+{
+  "date": "2026-11-01",
+  "scope": "Source-only split and rebuild-entry validation; no deployment",
+  "source_origin_commit": "d57d272c7ea841812e960de689b3d99bf5a61673",
+  "source_limit_bytes": 200000000,
+  "core_source_unchanged": {
+    "src/rtl": 28,
+    "src/hardware": 80,
+    "src/hls": 4,
+    "src/software": 99,
+    "src/vendor/fitness_ip": 83
+  },
+  "python": {
+    "passed": true,
+    "tests": 57,
+    "failures": 0,
+    "errors": 0,
+    "scope": "PS, scene and camera-control regressions; not physical camera timing"
+  },
+  "native": {
+    "passed": true,
+    "software_backend": true,
+    "actual_quirc_decoding": true,
+    "entry_point": "production explicit ROI snapshot",
+    "synthetic_metadata": true,
+    "cases": [
+      {
+        "name": "distinct-payloads",
+        "decoded": 2,
+        "geometry_payload_pairs": 2,
+        "spatial_publication_ids_distinct": true
+      },
+      {
+        "name": "identical-payloads",
+        "decoded": 2,
+        "geometry_payload_pairs": 2,
+        "spatial_publication_ids_distinct": true
+      }
+    ],
+    "libraries": {
+      "build/work/native/libqr_mainline.so.1": "b4572d61e0deb42d9d994e78895555ca2555aa12ed818ff889960de277dbc717"
+    },
+    "images_saved": false
+  },
+  "arm": {
+    "passed": true,
+    "compiler": "arm-amd-linux-gnueabi-gcc.real (GCC) 13.4.0",
+    "artifacts": {
+      "libqr_mainline.so.1": "6fe87cc235ee43378e88281ea356c1e4a1f9e567bf700224d8497e0e0ca8524c",
+      "qr-mainline": "da426fafecf57ab973cc7d94f0507c2bb9d07910a27e98126e50156bd5992988"
+    }
+  },
+  "kernel_modules": {
+    "passed": true,
+    "kernel_release": "6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68",
+    "modules": {
+      "ax7021b_camera_display.ko": "881a21c161f29cf44614d074991b41bc4c6fe1a505994a177f4a9660c447d692",
+      "ax7021b_qr_fitness.ko": "c1f18d56835ab0201d7716ce94f24ba26a0f0df52e956a2ddcf35a38bd67b794",
+      "ax7021b_qr_capture.ko": "70dc1a2d412dab02c4cd6fa22a0d1c30ee0cef7f89e97a22ac8e24be41fdb374"
+    }
+  },
+  "rtl": {
+    "passed": true,
+    "tool": "Vivado XSim 2025.2",
+    "files": {
+      "src/rtl/r4_camera_fork.v": "f4b0bf8d085125e5209a24e2c003a34ec926ef457c73f083a8e474ad2f1ff474",
+      "src/rtl/r4_display_memory_guard.v": "f6328fbd84b966fd21b6fe2f617150e4dbd39027b7f301355e20cc52646e9644",
+      "src/rtl/r4_display_osd.v": "ebfe860f79b387a3cc8f6372cb7151c60f40e6889812ad37d17407a0789e243f",
+      "src/rtl/r4_scan_identity.v": "9dd02b8adc5e030c5a43549c9c1743685e2c72b0d7c40b8da9a4099aec9cfb34",
+      "src/hardware/pynq_ax7021b/hardware/desktop/hdmi_desktop.v": "24b2cda819d7a77e607dc83a53014e0f1a29093e231e505dbfb259362acddddf",
+      "src/hardware/pynq_ax7021b/hardware/desktop/r4_hdmi_rgb.v": "05d24d0dcde0240a6aad8e4249b360abe94aee6376b7361d032a490de1dac013",
+      "sim/tests/tb_r4_fork.sv": "f9aeceef70523427e18ea51419cbccfd8a2bcae8e021bf620202560324e016a8",
+      "sim/tests/tb_r4_hdmi.sv": "ec24b6dc110ec5adfbee7f984b2e4548d959811d8b3c7cc273caf82d1e6fea92",
+      "sim/tests/tb_r4_identity.sv": "c57a0030532d2a1aac67638e3d0e7b56a8617623f5aa4608ac48650f2ec37eb5",
+      "sim/tests/tb_r4_memory.sv": "11eeaca2ac5797037278b68b6fc04aa78269d25170f0f5620e02c148ae4e1481",
+      "sim/tests/tb_r4_osd.sv": "0193d2f8a6ab0b7f6b85853edf9f248bcb1f2bff6e56aeeb0e9bebe5a6476c0c"
+    },
+    "checks": [
+      "independent branch backpressure",
+      "QR branch overflow does not affect display",
+      "source tag pairing",
+      "transparent glyph-only overlay",
+      "RGB/DE/HS/VS alignment",
+      "AXI AW/W separation and response stalls",
+      "pending bank immutable",
+      "vblank atomic commit"
+    ],
+    "not_tested": [
+      "actual VDMA Genlock",
+      "DDR draining",
+      "board",
+      "full implementation"
+    ]
+  },
+  "vivado_project": {
+    "created_from_source": true,
+    "label": "createcheck",
+    "topology_passed": true,
+    "connections": 14,
+    "full_implementation_run": false,
+    "notes": "Inherited BD width diagnostics remain; not a warning-free hardware qualification claim"
+  },
+  "boot_packaging": {
+    "passed": true,
+    "input": "Original qualified reference XSA and routed checkpoint, with externally cached platform inputs",
+    "reference_xsa_sha256": "c115c0c7d532399d71d72dd2f27c0f02de62d7d7b879df2646b807a8f520ef9f",
+    "new_fsbl_built": true,
+    "new_bitstream_built": false,
+    "device_tree_bytes_equal_reference": true,
+    "notes": "Inherited device-tree dtc diagnostics remain; this checks packaging, not board behavior"
+  },
+  "runtime_staging": {
+    "passed": true,
+    "runtime_files": 20,
+    "runtime_manifest_sha256": "fa82b838b8332c89fc4ab6f9fab6595cdd416fb2b4e55b3a7ee43c0557adc6a5",
+    "camera_installer_rebinds_verified_runtime": true
+  },
+  "dependency_validation": "All 11 original asset sizes/SHA-256 verified using local backup import; remote Release acquisition is a separate publication gate",
+  "not_performed": [
+    "full Vivado synthesis/implementation",
+    "new HLS synthesis/co-simulation",
+    "board deployment",
+    "optical camera qualification",
+    "source submission archive generation"
+  ]
+}

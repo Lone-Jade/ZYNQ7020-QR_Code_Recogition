@@ -1,0 +1,1 @@
+FITNESS_REFERENCE_PASS jobs=350 mode=full-csim

@@ -1,0 +1,118 @@
+{
+  "stage": "cosim",
+  "hardware_abi": 2,
+  "requested_ii": 2,
+  "baseline_ii2_sha256": "8ab0e9cefa51983f3eea724e4149565fc4b1e65e2c9ce1ebd54053e6a2417669",
+  "kernel_sha256": "35513f60ab6f2efdf0e2dfec142b7370fba3a2321fe5dc7b1dcd8a5c9e270d2e",
+  "tree_sha256": "b62aecfcda002e1afa38a2f3b17f972289b9205ae2f6cd665638fec8707fd005",
+  "testbench_sha256": "a47d0928e7144291d1429d81bd8210363972ad7f14e1976063dab9119caaed09",
+  "hls_csim_pass": true,
+  "native_c_grids": 320,
+  "native_c_scores": 25920,
+  "native_legacy_scores": 350,
+  "native_explicit_rounding_clipping_cases": 30,
+  "hls_csim_grids": 3,
+  "hls_csim_scores": 243,
+  "tree_paths": 5000,
+  "tree_candidates": 400000,
+  "c_rtl_cosim_pass": true,
+  "board_tested": false,
+  "estimated_resources": {
+    "BRAM_18K": 71,
+    "DSP": 61,
+    "FF": 13127,
+    "LUT": 18033,
+    "URAM": 0
+  },
+  "dsp_increment": -2,
+  "lut_increment": 2426,
+  "hls_estimate_within_lut_increment_budget": false,
+  "accepted": false,
+  "acceptance_pending": "Vivado actual joint resources, timing and board validation",
+  "actual_ii": 2,
+  "sample_pipeline_instances": 1,
+  "pipelines": [
+    {
+      "report": "qr_fitness_Pipeline_VITIS_LOOP_123_1_csynth.xml",
+      "ii": 1,
+      "depth": 1
+    },
+    {
+      "report": "qr_fitness_Pipeline_VITIS_LOOP_131_2_csynth.xml",
+      "ii": 1,
+      "depth": 3
+    },
+    {
+      "report": "qr_fitness_Pipeline_VITIS_LOOP_211_8_csynth.xml",
+      "ii": 1,
+      "depth": 3
+    },
+    {
+      "report": "qr_fitness_Pipeline_VITIS_LOOP_35_1_VITIS_LOOP_40_2_csynth.xml",
+      "ii": 2,
+      "depth": 98
+    },
+    {
+      "report": "qr_fitness_Pipeline_VITIS_LOOP_177_5_csynth.xml",
+      "ii": 2,
+      "depth": 2
+    },
+    {
+      "report": "qr_fitness_Pipeline_VITIS_LOOP_198_7_csynth.xml",
+      "ii": 1,
+      "depth": 2
+    },
+    {
+      "report": "qr_fitness_Pipeline_VITIS_LOOP_152_3_csynth.xml",
+      "ii": 1,
+      "depth": 3
+    }
+  ],
+  "ip": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-AC-FITNESS/build/r3-hls-compact-v3/component/hls/impl/ip",
+  "ip_component_sha256": "b51d4719ccef5fe5821577cbf93ca4c2bc06173d2cb6253b54ba272c273f2d62",
+  "registers_sha256": "107b537506087b3abc71f0606481edd3ff8297842a1d767146a61eade3915514",
+  "rtl_grid_versions": [
+    1,
+    20,
+    40
+  ],
+  "rtl_feature_counts": [
+    9,
+    9,
+    9
+  ],
+  "rtl_evaluations_per_grid": 81,
+  "rtl_full_feature_lists_verified": false,
+  "rtl_comparison": "C04 fitness_cell weighted selected cells; every score, decision and final coefficient",
+  "reports": {
+    "qr_fitness_csim.log.txt": "4948efd51c8840d6402aac7cce8d1bcfc0ba3fcdeac779ab6d45f76418e4c865",
+    "native-score.log.txt": "7136df8b879ed8581fcbc48ea9dd1e61f0296423933cb7f5e60d420b2d8b860c",
+    "native-legacy-score.log.txt": "9e6fe857159cae3e12256f4571f9dab059cf9987ee14921665a7711195d9b91c",
+    "qr_fitness_Pipeline_VITIS_LOOP_123_1_csynth.xml": "1b5cd0a35e8cca4a1cd35bb121baaec957386ca42da223f4bc2c737d91fc4595",
+    "qr_fitness_Pipeline_VITIS_LOOP_131_2_csynth.xml": "a750f215346bf91472c71d25f733dabcaaca44846dbd28b83a25dce3c472e8d3",
+    "qr_fitness_Pipeline_VITIS_LOOP_211_8_csynth.xml": "34df051391ed419be8350ece7e7d8b5f1443a44d413289d7e24519e5fbb2e4e6",
+    "qr_fitness_Pipeline_VITIS_LOOP_35_1_VITIS_LOOP_40_2_csynth.xml": "ad8d3b2eda13aa244c79293ff871831de388550bf5de6e34c85ea4efc0678eee",
+    "qr_fitness_Pipeline_VITIS_LOOP_177_5_csynth.xml": "261a383458169cdaf71d2776313fc22f53a9ba61190e2f19e66fbcab9fc373fb",
+    "qr_fitness_Pipeline_VITIS_LOOP_198_7_csynth.xml": "69abd0bb74e3c858d7eb548c4456e3eb3e63a99c0d32c3c778fa882bb4b23847",
+    "qr_fitness_Pipeline_VITIS_LOOP_152_3_csynth.xml": "45dc536e6116cad320b32a47bf68628a2c10e2792832feff5b17d517346d7361",
+    "qr_fitness_csynth.xml": "98415b68033ebe4d6c32aea0bfaab188c0f69262eec81c66a78acdc9e6a7e91d",
+    "qr_fitness_cosim.rpt.txt": "4feb0833d89d0e36532b8a8c4229847720cca892c61ac3fca6e6146cf4b54cf4"
+  },
+  "r3_kernel_source": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-AC-FITNESS/r3/hls/qr_fitness.cpp",
+  "kernel_header_sha256": "055e299b297f0e859550c37c3080f5538732f5ce9e3e1cc650c4a4c73fe58a84",
+  "tree_header_sha256": "3055a3c096055fe2bcab62615ecefc8526e961fbcc37fe6b092bb4132990920a",
+  "tool_executable": "/home/xiwei/tools/2025.2/Vitis/bin/vitis-run",
+  "tool_version": "2025.2",
+  "part": "xc7z020clg484-2",
+  "clock_period_ns": 10.0,
+  "hls_csim_grid_versions": [
+    1,
+    20,
+    40
+  ],
+  "hls_csim_feature_counts": [
+    161,
+    638,
+    1623
+  ]
+}

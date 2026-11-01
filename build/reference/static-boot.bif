@@ -1,0 +1,7 @@
+the_ROM_image:
+{
+ [bootloader] fsbl.elf
+ system.bit
+ u-boot.elf
+ [load=0x100000] system.dtb
+}

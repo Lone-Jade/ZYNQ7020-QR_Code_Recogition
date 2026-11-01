@@ -1,0 +1,20 @@
+{
+  "configured_at": "2026-10-25T18:51:40.676426+08:00",
+  "scope": "C04-R4-FINALIZE only",
+  "user_instruction": "不要因为这个重新导出，现在不需要再节省过多的余量",
+  "placed_lut_percent": 85.03,
+  "legacy_lut_headroom_percent": 85,
+  "lut_check": "physical device capacity <=100%; do not rebuild or re-export for exceeding the former 85% headroom target",
+  "other_limits_percent": {
+    "Block RAM Tile": 85,
+    "DSPs": 85
+  },
+  "setup_hold_drc_cdc_checks_retained": true,
+  "qualification_pending": false,
+  "actual_resource_percent": {
+    "Slice LUTs": 85.03,
+    "Block RAM Tile": 65.71,
+    "DSPs": 45.0
+  },
+  "hardware_receipt_sha256": "c3d40ac1a533945db266f180b4fd1da618b330c0a8b2fa25e6a55a5263c09d99"
+}

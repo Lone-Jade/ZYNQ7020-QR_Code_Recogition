@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "repository": "Lone-Jade/ZYNQ7020-QR_Code_Recogition",
+  "release_tag": "source-deps-v1",
+  "kernel_release": "6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68",
+  "groups": {
+    "kernel-sdk": [
+      {
+        "file": "kernel-sdk.tar.gz.part01",
+        "bytes": 41943040,
+        "sha256": "66e8043b4bc504c4b52db38693a0f44ad166026e2f5a2d6fc90847fca9509194"
+      },
+      {
+        "file": "kernel-sdk.tar.gz.part02",
+        "bytes": 41943040,
+        "sha256": "5166c71895a6a1c9239edbea370b9fe12c870251f7947d8d7041d2370601c7c0"
+      },
+      {
+        "file": "kernel-sdk.tar.gz.part03",
+        "bytes": 41943040,
+        "sha256": "da30835c0ddc56fb00eae0e98892085d1976f2f875164cb77f6d049d3784cf24"
+      },
+      {
+        "file": "kernel-sdk.tar.gz.part04",
+        "bytes": 41943040,
+        "sha256": "3756e4addfe4891caa9644a41a2dc036646e16a01c5ceea1bf5e53a11a74d5d1"
+      },
+      {
+        "file": "kernel-sdk.tar.gz.part05",
+        "bytes": 41943040,
+        "sha256": "7293e5409f525a56e627e379c6b6b7b9df10b6bc4910a8e80cbb54761f46f107"
+      },
+      {
+        "file": "kernel-sdk.tar.gz.part06",
+        "bytes": 41943040,
+        "sha256": "ed67beee853a258c57ebf4cf4dc5ea31b597d47380acdabfd0ba94a414d4baf1"
+      },
+      {
+        "file": "kernel-sdk.tar.gz.part07",
+        "bytes": 41943040,
+        "sha256": "929592638a535ce13e241de28077b102ed3efcbb5159b256f9225b27b8611600"
+      },
+      {
+        "file": "kernel-sdk.tar.gz.part08",
+        "bytes": 25403146,
+        "sha256": "2162bccb250507f64e3467c36305f87d1ebda4d2a0bf84ddfe0884cd931e4449"
+      }
+    ],
+    "platform": [
+      {
+        "file": "u-boot.elf",
+        "bytes": 8604804,
+        "sha256": "9c71e5fd1a76cd7955932090a3b349007991f01edf47f6cc0aad6e7701a2e279"
+      },
+      {
+        "file": "zImage",
+        "bytes": 7389216,
+        "sha256": "f00726abbbc22e1872bc5ea9b47a268624959e103c35fc7ec18c5f597e7058b4"
+      },
+      {
+        "file": "boot.scr",
+        "bytes": 3830,
+        "sha256": "4c7ed60cad10872084bf727b2c9ab0eca9eab992635cf3abf67dfe7ed9cc7807"
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "kernel_release": "6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68",
+  "source_bundle": "kernel-sdk.tar.gz",
+  "sha256": "bb6f276c2c249efc01e5fa48755faee349c1bd6a7459a36a7aacaf77c6a95ff5",
+  "bytes": 319004426,
+  "excluded_absolute_symlinks": [],
+  "config_sha256": "d0e62ddbf0c77fc6083688e46e3f03e5dcd952fb7047b026f4b55a47f1588e72",
+  "module_symvers_sha256": "4835606f0cf7b2ccf9b2838c4008db37312f72577e4b2014ec304575fa857824",
+  "purpose": "Self-contained matched Linux source and module-build SDK; no old generated-workspace dependency",
+  "chunks": [
+    {
+      "file": "kernel-sdk.tar.gz.part01",
+      "bytes": 41943040,
+      "sha256": "66e8043b4bc504c4b52db38693a0f44ad166026e2f5a2d6fc90847fca9509194"
+    },
+    {
+      "file": "kernel-sdk.tar.gz.part02",
+      "bytes": 41943040,
+      "sha256": "5166c71895a6a1c9239edbea370b9fe12c870251f7947d8d7041d2370601c7c0"
+    },
+    {
+      "file": "kernel-sdk.tar.gz.part03",
+      "bytes": 41943040,
+      "sha256": "da30835c0ddc56fb00eae0e98892085d1976f2f875164cb77f6d049d3784cf24"
+    },
+    {
+      "file": "kernel-sdk.tar.gz.part04",
+      "bytes": 41943040,
+      "sha256": "3756e4addfe4891caa9644a41a2dc036646e16a01c5ceea1bf5e53a11a74d5d1"
+    },
+    {
+      "file": "kernel-sdk.tar.gz.part05",
+      "bytes": 41943040,
+      "sha256": "7293e5409f525a56e627e379c6b6b7b9df10b6bc4910a8e80cbb54761f46f107"
+    },
+    {
+      "file": "kernel-sdk.tar.gz.part06",
+      "bytes": 41943040,
+      "sha256": "ed67beee853a258c57ebf4cf4dc5ea31b597d47380acdabfd0ba94a414d4baf1"
+    },
+    {
+      "file": "kernel-sdk.tar.gz.part07",
+      "bytes": 41943040,
+      "sha256": "929592638a535ce13e241de28077b102ed3efcbb5159b256f9225b27b8611600"
+    },
+    {
+      "file": "kernel-sdk.tar.gz.part08",
+      "bytes": 25403146,
+      "sha256": "2162bccb250507f64e3467c36305f87d1ebda4d2a0bf84ddfe0884cd931e4449"
+    }
+  ],
+  "storage": "Ordered 40 MiB chunks; build/scripts/kernel_sdk_bundle.py verifies and reassembles the original archive"
+}

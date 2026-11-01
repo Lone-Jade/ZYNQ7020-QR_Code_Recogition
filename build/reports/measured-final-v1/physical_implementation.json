@@ -1,0 +1,17 @@
+{
+  "strategy": "non-incremental implementation; prior incremental guide and PLACE PRE hook cleared; optional existing post-route closure",
+  "clock_constraints_changed": false,
+  "reference_checkpoint_sha256": null,
+  "reference_checkpoint_original_path": null,
+  "reference_checkpoint_original_sha256": null,
+  "reference_checkpoint_snapshot_path": null,
+  "reference_checkpoint_snapshot_sha256": null,
+  "incremental_directive": null,
+  "target_wns_source": "standard clock constraints",
+  "target_wns_ns": null,
+  "automatic_checkpoint_read_disabled": true,
+  "place_pre_hook_sha256": null,
+  "phys_route_strategy_reset": false,
+  "phys_route_strategy": "retain existing project settings",
+  "script_sha256": "5d0022a3d92bf567a3f6c7610d637da374d6ad9de6321151e848af5089a71a8e"
+}

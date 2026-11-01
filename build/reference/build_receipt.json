@@ -1,0 +1,29 @@
+{
+  "base_input_sha256": {
+    "u-boot.elf": "9c71e5fd1a76cd7955932090a3b349007991f01edf47f6cc0aad6e7701a2e279",
+    "zImage": "f00726abbbc22e1872bc5ea9b47a268624959e103c35fc7ec18c5f597e7058b4",
+    "image.its": "c7cb9a599f0563d3651ee64dfeccbb7814e27012f6defba454a7313b75d3b872",
+    "boot.scr": "4c7ed60cad10872084bf727b2c9ab0eca9eab992635cf3abf67dfe7ed9cc7807",
+    "system.dts": "21a9f1980efa98fdb7e6b0c5a3748e31b8219e393f80c27de734e269431bb470"
+  },
+  "xsa": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/output/ax7021b_linux_qr_desktop.xsa",
+  "xsa_sha256": "c115c0c7d532399d71d72dd2f27c0f02de62d7d7b879df2646b807a8f520ef9f",
+  "fsbl_builder_sha256": "54974c3bacad8731d1060d083644f7d3fe9deeb9cbd1683099966fd220ec4eb2",
+  "fsbl_elf32_arm_checked": true,
+  "fitness": true,
+  "sha256": {
+    "system.dtb": "dbc24bf0812000d32e3122116eff97f2e38f280fdeada7eb91d69613fabc1422",
+    "zImage": "f00726abbbc22e1872bc5ea9b47a268624959e103c35fc7ec18c5f597e7058b4",
+    "BOOT.BIN": "0f5635cd7fa7e241b378b10d00d01a1e61d0fe18f97f95c35a1a42f599be8f4f",
+    "system.bit": "34e4588ddb8208aac2da1fc48e5e1dfa9e25078a2438c70c07228b96410e8e16",
+    "fsbl_elf_header.txt": "dd64c6246e37769153e4540c6d6e3b92d3bab1851f67aa68c00191d04a520b0a",
+    "image.ub": "0cd76d257bfad2117372d0b68abc481f4ad11679ad718c53cf3a1138b56369a2",
+    "static-boot.bif": "500af0b8d947d87dd5b43300a8fb2d1c905540489368faebb2d1cf3f735fa120",
+    "boot.scr": "4c7ed60cad10872084bf727b2c9ab0eca9eab992635cf3abf67dfe7ed9cc7807",
+    "u-boot.elf": "9c71e5fd1a76cd7955932090a3b349007991f01edf47f6cc0aad6e7701a2e279",
+    "fsbl.elf": "1d6384e86a8adbe596c81f62baed2d74cd855c545395454acdec9988356d2eab",
+    "system.dts": "df6bb95304130c0562e3e91d23c650f5db336beb5e8fecb8cfbd9c358404d8ea",
+    "image.its": "c7cb9a599f0563d3651ee64dfeccbb7814e27012f6defba454a7313b75d3b872"
+  },
+  "deployed": false
+}

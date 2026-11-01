@@ -1,0 +1,23 @@
+{
+  "same_operator_counts": true,
+  "baseline": {
+    "uitodp": 4,
+    "dadd": 4,
+    "dcmp": 6,
+    "ddiv": 1,
+    "dmul": 4,
+    "dsub": 1,
+    "sitodp": 2
+  },
+  "r3": {
+    "uitodp": 4,
+    "dadd": 4,
+    "dcmp": 6,
+    "ddiv": 1,
+    "dmul": 4,
+    "dsub": 1,
+    "sitodp": 2
+  },
+  "kernel_sha256": "35513f60ab6f2efdf0e2dfec142b7370fba3a2321fe5dc7b1dcd8a5c9e270d2e",
+  "method": "Count floating-point operator instance rows only in the Instance utilization section of each csynth.rpt; exclude other report sections and hierarchy group instance names."
+}

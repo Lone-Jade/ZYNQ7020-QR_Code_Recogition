@@ -1,0 +1,17 @@
+[Unit]
+Description=C04 R4 independent PL camera preview with automatic exposure and gain
+After=systemd-modules-load.service
+Before=c04-r4-recognition.service
+Conflicts=ax7021b-desktop.service display-manager.service c04-ac-fitness-display.service c04-r3-color-test-preview.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStartPre=/sbin/modprobe ax7021b_qr_capture
+ExecStartPre=/sbin/modprobe ax7021b_qr_fitness
+ExecStartPre=/sbin/modprobe ax7021b_camera_display
+ExecStart=/usr/local/share/pynq-venv/bin/python -B /usr/local/lib/zynq-qr-camera/camera_control.py start-preview
+ExecStop=/usr/local/share/pynq-venv/bin/python -B /opt/zynq-qr/runtime/launch_r4.py --stop-preview
+TimeoutStartSec=45
+TimeoutStopSec=15

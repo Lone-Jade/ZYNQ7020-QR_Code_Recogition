@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "case_id": 2,
+  "case_name": "case_0002",
+  "group": "basic",
+  "scene_name": "upper_left_wide_box",
+  "seed": 20261003,
+  "scene_seed": 202,
+  "width": 800,
+  "height": 600,
+  "pixel_format": "RGB565",
+  "byte_order": "little_endian",
+  "channel_layout": "R[15:11],G[10:5],B[4:0]",
+  "swap_rb": false,
+  "row_stride_bytes": 1600,
+  "qr_count": 1,
+  "payload": "BOX-01002|SKU-4802|ZONE-B",
+  "version": 3,
+  "ecc": "M",
+  "mask": 2,
+  "encoding_mode": "byte",
+  "module_count": 29,
+  "module_pixels": 5,
+  "quiet_zone_modules": 4,
+  "rotation_deg": 0.0,
+  "perspective_level": 0,
+  "contains_valid_qr": true,
+  "expected_decode": true,
+  "expected_payloads": [
+    "BOX-01002|SKU-4802|ZONE-B"
+  ],
+  "expected_finder_centers": [
+    [
+      195.0,
+      137.0
+    ],
+    [
+      305.0,
+      137.0
+    ],
+    [
+      195.0,
+      247.0
+    ]
+  ],
+  "expected_corners": [
+    [
+      177.5,
+      119.5
+    ],
+    [
+      322.5,
+      119.5
+    ],
+    [
+      322.5,
+      264.5
+    ],
+    [
+      177.5,
+      264.5
+    ]
+  ],
+  "expected_outer_corners": [
+    [
+      157.5,
+      99.5
+    ],
+    [
+      342.5,
+      99.5
+    ],
+    [
+      342.5,
+      284.5
+    ],
+    [
+      157.5,
+      284.5
+    ]
+  ],
+  "expected_outer_bbox": [
+    157.5,
+    99.5,
+    342.5,
+    284.5
+  ],
+  "qr_active_area_ratio": 0.043802,
+  "qr_with_quiet_zone_area_ratio": 0.071302,
+  "target_box": {
+    "shape": "wide_rectangle",
+    "bounds": [
+      60,
+      65,
+      440,
+      325
+    ],
+    "color_bgr_before_rgb565_quantization": [
+      128,
+      178,
+      151
+    ]
+  },
+  "effects": {
+    "brightness": 0.0,
+    "contrast": 1.0,
+    "horizontal_gradient_strength": 0.0,
+    "gaussian_blur_sigma": 0.0,
+    "gaussian_noise_std": 0.0
+  },
+  "scene_elements": [
+    {
+      "type": "conveyor",
+      "bounds": [
+        18,
+        32,
+        781,
+        573
+      ]
+    },
+    {
+      "type": "lane_marker",
+      "y": 300
+    },
+    {
+      "type": "distractor_box",
+      "shape": "rectangle",
+      "bounds": [
+        28,
+        82,
+        168,
+        188
+      ]
+    },
+    {
+      "type": "distractor_box",
+      "shape": "square",
+      "bounds": [
+        622,
+        420,
+        770,
+        548
+      ]
+    },
+    {
+      "type": "distractor_box",
+      "shape": "rectangle",
+      "bounds": [
+        42,
+        414,
+        176,
+        526
+      ]
+    },
+    {
+      "type": "distractor_box",
+      "shape": "rectangle",
+      "bounds": [
+        606,
+        78,
+        766,
+        180
+      ]
+    },
+    {
+      "type": "target_box",
+      "shape": "wide_rectangle",
+      "bounds": [
+        60,
+        65,
+        440,
+        325
+      ]
+    },
+    {
+      "type": "barcode_like_distractor",
+      "bounds": [
+        34,
+        330,
+        128,
+        388
+      ]
+    }
+  ],
+  "gray_formula": "(77*R8 + 150*G8 + 29*B8) >> 8",
+  "binary_rule": {
+    "threshold": 128,
+    "dark_value": 255,
+    "light_value": 0,
+    "expression": "255 if gray < 128 else 0"
+  },
+  "module_storage": {
+    "layout": "row_major",
+    "bytes_per_module": 1,
+    "dark_value": 1,
+    "light_value": 0
+  },
+  "files": {
+    "input.png": {
+      "name": "input.png",
+      "bytes": 67062,
+      "crc32": "CB1F321A"
+    },
+    "input_rgb565.bin": {
+      "name": "input_rgb565.bin",
+      "bytes": 960000,
+      "crc32": "BF47C955"
+    },
+    "expected_gray8.bin": {
+      "name": "expected_gray8.bin",
+      "bytes": 480000,
+      "crc32": "A09FD084"
+    },
+    "expected_binary.bin": {
+      "name": "expected_binary.bin",
+      "bytes": 480000,
+      "crc32": "1DE7D83E"
+    },
+    "expected_gray8.png": {
+      "name": "expected_gray8.png",
+      "bytes": 31751,
+      "crc32": "27331D55"
+    },
+    "expected_binary_preview.png": {
+      "name": "expected_binary_preview.png",
+      "bytes": 8995,
+      "crc32": "E67D3003"
+    },
+    "expected_modules.bin": {
+      "name": "expected_modules.bin",
+      "bytes": 841,
+      "crc32": "5F51C517"
+    }
+  },
+  "input_crc32": "BF47C955"
+}

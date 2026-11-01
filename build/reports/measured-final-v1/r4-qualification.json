@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "generation": "R4",
+  "label": "final-v1",
+  "xsa_sha256": "c115c0c7d532399d71d72dd2f27c0f02de62d7d7b879df2646b807a8f520ef9f",
+  "bit_sha256": "34e4588ddb8208aac2da1fc48e5e1dfa9e25078a2438c70c07228b96410e8e16",
+  "vdma_parameters": {
+    "C_INCLUDE_MM2S": "1",
+    "C_INCLUDE_S2MM": "1",
+    "C_NUM_FSTORES": "3",
+    "C_MM2S_GENLOCK_MODE": "3",
+    "C_S2MM_GENLOCK_MODE": "2",
+    "C_INCLUDE_INTERNAL_GENLOCK": "1",
+    "C_S_AXIS_S2MM_TDATA_WIDTH": "16",
+    "C_M_AXIS_MM2S_TDATA_WIDTH": "16"
+  },
+  "exclusive_ddr_observer_connections": true,
+  "source_tag_axis_bits": 65,
+  "gray_only": true,
+  "osd_address": "0x43c40000",
+  "display_irq": "In0/SPI29;In6/SPI35",
+  "dsp_count": 99,
+  "resource_percent": {
+    "Slice LUTs": 85.03,
+    "Block RAM Tile": 65.71,
+    "DSPs": 45.0
+  },
+  "setup_wns_ns": 0.072,
+  "hold_whs_ns": 0.042,
+  "clocks_relaxed": false,
+  "original_primary_clock_files_unchanged": true,
+  "new_cdc_constraints_sha256": "af8eecaa8f432d61068488e7496b37eee2dd7dc5e2644960bed62500f957b564",
+  "cdc_data_bound_ns": 9.7,
+  "cdc_clock_group_exceptions": false,
+  "registered_gray_count": true,
+  "board_tested": false
+}

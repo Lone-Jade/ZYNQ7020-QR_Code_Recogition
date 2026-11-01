@@ -1,0 +1,2 @@
+TREE_REFERENCE_PASS paths=5000 candidates=400000 host_build_mean_ns=28350
+WHOLE_GRID_REFERENCE_PASS grids=320 scores=25920 mode=full-native

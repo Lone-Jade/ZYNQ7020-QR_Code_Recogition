@@ -1,0 +1,33 @@
+#!/bin/sh
+set -eu
+camera=c04-r4-camera.service
+recognition=c04-r4-recognition.service
+case "${1:-help}" in
+  start|stop|restart|check)
+    if [ "$(id -u)" -ne 0 ]; then
+      echo "Run: sudo zynq-qr $*" >&2; exit 1
+    fi ;;
+esac
+case "${1:-help}" in
+  start)
+    systemctl start "$recognition"
+    /usr/local/libexec/zynq-qr-status.py --wait 30 --require-running ;;
+  stop)
+    systemctl stop "$recognition" "$camera"
+    /usr/local/libexec/zynq-qr-status.py --require-stopped ;;
+  restart)
+    "$0" stop
+    "$0" start ;;
+  status|check)
+    /usr/local/libexec/zynq-qr-status.py ;;
+  logs)
+    case "${2:-}" in
+      '') exec journalctl -u "$camera" -u "$recognition" -n 80 --no-pager -o cat ;;
+      -f|--follow) exec journalctl -u "$camera" -u "$recognition" -n 30 -f -o cat ;;
+      *) echo 'Usage: zynq-qr logs [--follow]' >&2;exit 2 ;;
+    esac ;;
+  help|-h|--help)
+    echo 'Usage: sudo zynq-qr {start|stop|restart|status|check|logs [--follow]}'
+    echo 'Manual start only; closing the terminal does not stop the service.' ;;
+  *) echo 'Unknown command. Use: zynq-qr help' >&2;exit 2 ;;
+esac

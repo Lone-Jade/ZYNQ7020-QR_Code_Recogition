@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "software_backend": true,
+  "actual_quirc_decoding": true,
+  "entry_point": "production explicit ROI snapshot",
+  "synthetic_metadata": true,
+  "cases": [
+    {
+      "name": "distinct-payloads",
+      "decoded": 2,
+      "geometry_payload_pairs": 2,
+      "spatial_publication_ids_distinct": true
+    },
+    {
+      "name": "identical-payloads",
+      "decoded": 2,
+      "geometry_payload_pairs": 2,
+      "spatial_publication_ids_distinct": true
+    }
+  ],
+  "libraries": {
+    "build/work/native/libqr_mainline.so.1": "b4572d61e0deb42d9d994e78895555ca2555aa12ed818ff889960de277dbc717"
+  },
+  "images_saved": false
+}

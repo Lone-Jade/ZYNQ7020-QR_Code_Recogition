@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "tool": "Vivado XSim 2025.2",
+  "files": {
+    "src/rtl/r4_camera_fork.v": "f4b0bf8d085125e5209a24e2c003a34ec926ef457c73f083a8e474ad2f1ff474",
+    "src/rtl/r4_display_memory_guard.v": "f6328fbd84b966fd21b6fe2f617150e4dbd39027b7f301355e20cc52646e9644",
+    "src/rtl/r4_display_osd.v": "ebfe860f79b387a3cc8f6372cb7151c60f40e6889812ad37d17407a0789e243f",
+    "src/rtl/r4_scan_identity.v": "9dd02b8adc5e030c5a43549c9c1743685e2c72b0d7c40b8da9a4099aec9cfb34",
+    "src/hardware/pynq_ax7021b/hardware/desktop/hdmi_desktop.v": "24b2cda819d7a77e607dc83a53014e0f1a29093e231e505dbfb259362acddddf",
+    "src/hardware/pynq_ax7021b/hardware/desktop/r4_hdmi_rgb.v": "05d24d0dcde0240a6aad8e4249b360abe94aee6376b7361d032a490de1dac013",
+    "sim/tests/tb_r4_fork.sv": "f9aeceef70523427e18ea51419cbccfd8a2bcae8e021bf620202560324e016a8",
+    "sim/tests/tb_r4_hdmi.sv": "ec24b6dc110ec5adfbee7f984b2e4548d959811d8b3c7cc273caf82d1e6fea92",
+    "sim/tests/tb_r4_identity.sv": "c57a0030532d2a1aac67638e3d0e7b56a8617623f5aa4608ac48650f2ec37eb5",
+    "sim/tests/tb_r4_memory.sv": "11eeaca2ac5797037278b68b6fc04aa78269d25170f0f5620e02c148ae4e1481",
+    "sim/tests/tb_r4_osd.sv": "0193d2f8a6ab0b7f6b85853edf9f248bcb1f2bff6e56aeeb0e9bebe5a6476c0c"
+  },
+  "checks": [
+    "independent branch backpressure",
+    "QR branch overflow does not affect display",
+    "source tag pairing",
+    "transparent glyph-only overlay",
+    "RGB/DE/HS/VS alignment",
+    "AXI AW/W separation and response stalls",
+    "pending bank immutable",
+    "vblank atomic commit"
+  ],
+  "not_tested": [
+    "actual VDMA Genlock",
+    "DDR draining",
+    "board",
+    "full implementation"
+  ]
+}

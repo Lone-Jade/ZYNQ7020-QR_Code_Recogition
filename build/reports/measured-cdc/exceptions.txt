@@ -1,0 +1,23 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
+| Date         : Sun Oct 25 19:15:44 2026
+| Host         : xiwei-virtual-machine running 64-bit Ubuntu 22.04.5 LTS
+| Command      : report_exceptions -summary -file /home/xiwei/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/cdc-final-v1/exceptions.txt
+| Design       : qr_desktop_top
+| Device       : 7z020-clg484
+| Speed File   : -2  PRODUCTION 1.12 2019-11-22
+| Design State : Routed
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Exceptions Report
+
+Exception        No. of Constraints  No. of Setup Endpoints  No. of Hold Endpoints
+---------------  ------------------  ----------------------  ---------------------
+False Path       75                  374                     374
+Clock Groups     0                   0                       0
+Multicycle Path  0                   0                       0
+Max Delay        0                   0                       0
+Max Delay DPO    37                  1226                    0
+Min Delay        0                   0                       0
+

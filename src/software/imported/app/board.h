@@ -1,0 +1,6 @@
+#ifndef QR_REPLAY_BOARD_H
+#define QR_REPLAY_BOARD_H
+#include "xil_types.h"
+#define QR_REPLAY_VDMA_BASE QR_REPLAY_QR_VDMA_BASE
+#define QR_REPLAY_QR_BASE QR_REPLAY_QR_CORE_BASE
+#endif

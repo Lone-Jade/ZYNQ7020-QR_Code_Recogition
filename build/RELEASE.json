@@ -1,0 +1,43 @@
+{
+  "project": "ZYNQ7020-QR_code_Recognition",
+  "board": "AX7021B",
+  "part": "xc7z020clg484-2",
+  "toolchain": "Vivado/Vitis 2025.2",
+  "runtime_revision": "R4 display-fix4",
+  "kernel": "6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68",
+  "camera_control": {
+    "functions": [
+      "manual exposure and gain",
+      "automatic exposure AEC",
+      "automatic gain compensation AGC"
+    ],
+    "default_max_exposure_ms": 4,
+    "default_max_gain": 8,
+    "physical_optical_accuracy_qualified": false,
+    "default_mode": "auto",
+    "default_persistence": "installed service configuration",
+    "override_persistence": "current_boot"
+  },
+  "startup": "manual command",
+  "data_directory": "reserved",
+  "report_directory": "reserved",
+  "distribution": "source-only",
+  "source_origin_commit": "d57d272c7ea841812e960de689b3d99bf5a61673",
+  "source_release_tag": "source-v1.0",
+  "dependencies": "build/DEPENDENCIES.json",
+  "reference_artifacts_in_source": false,
+  "reference_runtime_manifest_sha256": "9de5a17bda837cecab830cc661046ed31f5d5a7b51b3fee7e0155c61ec96a936",
+  "reference_bit_sha256": "34e4588ddb8208aac2da1fc48e5e1dfa9e25078a2438c70c07228b96410e8e16",
+  "reference_xsa_sha256": "c115c0c7d532399d71d72dd2f27c0f02de62d7d7b879df2646b807a8f520ef9f",
+  "validation": {
+    "reference_before_source_split": {
+      "python_tests": 54,
+      "rtl_testbenches": 5,
+      "native_geometry_cases": 2,
+      "arm_build_passed": true,
+      "matched_sdk_verified": true,
+      "full_hardware_implementation_rebuilt": false
+    },
+    "source_split": "See build/reports/source-submission.json; reference results are not a new full hardware build"
+  }
+}

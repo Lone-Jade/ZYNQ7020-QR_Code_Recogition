@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "address_bits": 32,
+  "cache_line_bytes": 32,
+  "note": "Historical QR V1 adapter; not defaults for another project. Descriptor page reservation is not C structure size.",
+  "symbols": {"QR_WIDTH": 800, "QR_HEIGHT": 600, "QR_PROTOCOL_VERSION": "0x00010000"},
+  "regions": [
+    {"name": "app_reservation", "kind": "memory", "base": "0x00100000", "size": "0x0FE00000", "alignment": 32},
+    {"name": "descriptor_page", "kind": "memory", "base": "0x0FF00000", "size": "0x1000", "alignment": 32, "base_symbol": "QR_DESCRIPTOR_ADDR"},
+    {"name": "input", "kind": "memory", "base": "0x10000000", "size": 960000, "alignment": 32, "base_symbol": "QR_INPUT_ADDR"},
+    {"name": "gray", "kind": "memory", "base": "0x11000000", "size": 480000, "alignment": 32, "base_symbol": "QR_GRAY_ADDR"},
+    {"name": "result", "kind": "memory", "base": "0x12000000", "size": 1024, "alignment": 32, "base_symbol": "QR_RESULT_ADDR", "size_symbol": "QR_RESULT_CAPACITY"},
+    {"name": "vdma", "kind": "mmio", "base": "0x43000000", "size": "0x10000", "alignment": 4, "base_symbol": "QR_VDMA_BASE"},
+    {"name": "qr_core", "kind": "mmio", "base": "0x43C00000", "size": "0x10000", "alignment": 4, "base_symbol": "QR_CORE_BASE", "registers": [
+      {"name": "control", "offset": 0, "width_bytes": 4, "access": "rw", "symbol": "QR_REG_CONTROL"},
+      {"name": "status", "offset": 4, "width_bytes": 4, "access": "ro", "symbol": "QR_REG_STATUS"},
+      {"name": "completed_frame", "offset": "0x38", "width_bytes": 4, "access": "ro", "symbol": "QR_REG_COMPLETED_FRAME_ID"}
+    ]}
+  ]
+}

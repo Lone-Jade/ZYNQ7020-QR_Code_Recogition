@@ -1,0 +1,184 @@
+{
+  "passed": true,
+  "scope": "Each R4 CDC max-delay rule checked on the selected final routed checkpoint; full CDC diagnostics generated for separate topology review",
+  "full_cdc_diagnostics": "build/cdc-final-v1/full-cdc.txt",
+  "cdc_topology_review_pending": false,
+  "reference": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/ax7021b_linux_qr_desktop/ax7021b_linux_qr_desktop.runs/impl_1/qr_desktop_top_routed.dcp",
+  "reference_sha256": "eaea8883dedb47230971b2faf4d179e02f9fe8dfc18ed712fb88c3037a6d3d6a",
+  "constraint_sha256": "af8eecaa8f432d61068488e7496b37eee2dd7dc5e2644960bed62500f957b564",
+  "critical_warnings": 0,
+  "errors": 0,
+  "clock_groups_added": false,
+  "primary_clocks_unchanged": true,
+  "rules": [
+    {
+      "index": 0,
+      "sources": 3,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.665
+    },
+    {
+      "index": 1,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.744
+    },
+    {
+      "index": 2,
+      "sources": 32,
+      "targets": 32,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.871
+    },
+    {
+      "index": 3,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.523
+    },
+    {
+      "index": 4,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.671
+    },
+    {
+      "index": 5,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.838
+    },
+    {
+      "index": 6,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.558
+    },
+    {
+      "index": 7,
+      "sources": 6,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.714
+    },
+    {
+      "index": 8,
+      "sources": 3,
+      "targets": 2,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.927
+    },
+    {
+      "index": 9,
+      "sources": 4,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 6.564
+    },
+    {
+      "index": 10,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.838
+    },
+    {
+      "index": 11,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.866
+    },
+    {
+      "index": 12,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.709
+    },
+    {
+      "index": 13,
+      "sources": 1,
+      "targets": 1,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.703
+    },
+    {
+      "index": 14,
+      "sources": 7,
+      "targets": 4,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.672
+    },
+    {
+      "index": 15,
+      "sources": 7,
+      "targets": 4,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.576
+    },
+    {
+      "index": 16,
+      "sources": 64,
+      "targets": 32,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.438
+    },
+    {
+      "index": 17,
+      "sources": 128,
+      "targets": 128,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.805
+    },
+    {
+      "index": 18,
+      "sources": 32,
+      "targets": 32,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.717
+    },
+    {
+      "index": 19,
+      "sources": 32,
+      "targets": 32,
+      "requirement_ns": 9.7,
+      "slack_ns": 8.146
+    },
+    {
+      "index": 20,
+      "sources": 64,
+      "targets": 64,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.666
+    },
+    {
+      "index": 21,
+      "sources": 32,
+      "targets": 32,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.871
+    },
+    {
+      "index": 22,
+      "sources": 1024,
+      "targets": 512,
+      "requirement_ns": 9.7,
+      "slack_ns": 7.917
+    }
+  ],
+  "reports": {
+    "check-timing.txt": "ecce3de67e99fad983ce3801020c162663b5e1e367f68a06ecdce43cd0f20d29",
+    "stdout.txt": "f1dda39c00ebf1dcf2f8ff01d86b71d36bef531e641e47e888c788f65effbc17",
+    "full-cdc.txt": "2b7e6300683094cbbdfad8b4c31fc7bffc9bff1c8693965b9501ae83c12d4bd4",
+    "bus-skew.txt": "75c619cb5d3317233a77eadfef99825d5360af8335e80adf818f9bab656da52e",
+    "exceptions.txt": "cf55bf3815ea11c8a55ff1d28b2e2f4b75a778e33694f525e676a5c9b1a3caa4"
+  },
+  "cdc_topology_review": "validation/final-cdc-review.json"
+}
