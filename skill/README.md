@@ -1,6 +1,20 @@
 # 工程技能包
 
-本目录提供 13 个可独立使用的工程技能，覆盖问题诊断、性能分析、软硬件构建、接口与数据完整性、Linux 运行和协作交付。每个技能使用标准 `SKILL.md` 入口，配套参考、脚本与资源位于同一文件夹内；使用时复制完整文件夹。
+本目录收录 13 个可独立使用的工程技能包，覆盖问题诊断、性能分析、软硬件构建、接口与数据完整性、Linux 运行和交付。每个技能包都是自包含的文件夹，由 Markdown 文档与可选的 Python 脚本组成；脚本只使用 Python 标准库，阅读与执行都不需要网络、服务或专有工具。
+
+## 组成结构
+
+每个技能包以 `SKILL.md` 为入口，并按需附带下列目录（并非每个包都齐全）：
+
+```text
+<skill-name>/
+├── SKILL.md            入口：适用范围、步骤与判定标准
+├── references/         背景资料、判据、格式说明与能力边界
+├── scripts/            可单独运行的检查脚本（仅用标准库）
+└── assets/             模板、样例或 testbench
+```
+
+`SKILL.md` 开头的元数据只描述技能名称与适用场景，声明的是任务边界而不是运行环境依赖。
 
 ## 用途索引
 
@@ -8,7 +22,7 @@
 | --- | --- |
 | [systematic-debugging](systematic-debugging/SKILL.md) | 核实故障观测、定位首个失败边界、设计判别实验并验证修复 |
 | [performance-bottleneck-analysis](performance-bottleneck-analysis/SKILL.md) | 统一吞吐与延迟口径、定位瓶颈、比较优化前后的正确性和性能 |
-| [ai-assisted-engineering](ai-assisted-engineering/SKILL.md) | 明确需求、约束与验收，完成实现、验证和阶段交付 |
+| [ai-assisted-engineering](ai-assisted-engineering/SKILL.md) | 明确需求、约束与验收条件，组织实现、验证和阶段交付 |
 | [hardware-build-and-handoff](hardware-build-and-handoff/SKILL.md) | 核对硬件设计、软件接口、构建产物与交付证据是否匹配 |
 | [vivado-vitis-flow](vivado-vitis-flow/SKILL.md) | RTL、C/C++ HLS 或受支持的 MATLAB 流程生成 IP，并完成 Vivado 与 Vitis 构建链 |
 | [streaming-data-path-verification](streaming-data-path-verification/SKILL.md) | 验证流握手、背压、数据打包、帧边界、复位与跨时钟域行为 |
@@ -20,54 +34,46 @@
 | [result-association-and-publication](result-association-and-publication/SKILL.md) | 检查解码结果、实体与位置关联、发布队列及显示提交 |
 | [algorithm-porting-and-replay](algorithm-porting-and-replay/SKILL.md) | 冻结同一输入，比较算法阶段、数值语义与目标移植结果，回放失败样例 |
 
-## Linux / Ubuntu 安装
+## 使用方式
 
-在仓库根目录执行以下命令，将全部技能复制到当前项目的技能发现目录：
+技能包不与任何软件或运行环境绑定，按下列任一方式使用即可：
+
+1. **直接阅读**：用任意 Markdown 阅读器打开对应 `SKILL.md`，按文中步骤执行；需要细节时打开同包的 `references/`。
+2. **纳入工程**：把完整的技能文件夹复制到自己的工程、知识库或笔记目录，保留包内相对结构，因为文档之间的相对链接依赖它。
+3. **运行脚本**：在技能包目录执行 `python3 scripts/<脚本>.py --help` 查看参数。脚本只读取给出的输入文件并打印检查结果，不修改仓库、不访问网络；输入格式与适用范围见同包参考文档。
+4. **按需裁剪**：保留 `SKILL.md` 及其中引用到的文件即可使用；与已有同名技能合并前先备份本地修改。
+
+以下命令在仓库根目录执行。复制单个技能（Linux/macOS）：
 
 ```bash
-mkdir -p .agents/skills
+cp -R skill/vivado-vitis-flow /path/to/your/knowledge-base/
+```
+
+复制全部技能：
+
+```bash
 for package in skill/*/; do
-    cp -R "$package" .agents/skills/
+    cp -R "$package" /path/to/your/knowledge-base/
 done
 ```
 
-只安装某一个技能时，例如：
-
-```bash
-mkdir -p .agents/skills
-cp -R skill/vivado-vitis-flow .agents/skills/
-```
-
-## Windows 安装
-
-在仓库根目录打开 PowerShell，复制全部技能：
+Windows PowerShell：
 
 ```powershell
-New-Item -ItemType Directory -Force .\.agents\skills | Out-Null
+Copy-Item -LiteralPath .\skill\vivado-vitis-flow -Destination <目标目录> -Recurse
+```
+
+```powershell
 Get-ChildItem -LiteralPath .\skill -Directory | ForEach-Object {
-    Copy-Item -LiteralPath $_.FullName -Destination .\.agents\skills -Recurse
+    Copy-Item -LiteralPath $_.FullName -Destination <目标目录> -Recurse
 }
 ```
 
-只安装某一个技能时，例如：
+技能包不写入任何配置目录、不注册服务、不修改环境变量；如何归档、分发或集成完全由使用者决定。
 
-```powershell
-New-Item -ItemType Directory -Force .\.agents\skills | Out-Null
-Copy-Item -LiteralPath .\skill\vivado-vitis-flow -Destination .\.agents\skills -Recurse
-```
+## 使用边界
 
-上述方法仅作用于当前项目。需要跨项目使用时，可将选中的完整技能文件夹复制到个人 `$CODEX_HOME/skills`；未设置 `CODEX_HOME` 时，通常使用用户目录下的 `.codex/skills`。更新已有同名技能前，先比较并保留自行修改的内容。
-
-## 使用方法
-
-在支持技能发现的 Codex 环境中，可按任务自动选用技能，也可显式调用：
-
-```text
-$systematic-debugging 分析当前报错，核实实际运行版本并定位首个失败边界。
-$vivado-vitis-flow 根据现有源码和本机工具完成硬件与软件构建，检查导出接口及目标 ELF。
-$shared-buffer-lifecycle 检查采集、识别与显示共享缓冲的所有权和停止恢复过程。
-```
-
-若安装后技能列表未刷新，重新打开项目或客户端。也可直接阅读对应 `SKILL.md`，按当前任务选择所需参考文件。
-
-技能包不附带 Vivado、Vitis、MATLAB 或板端工具链。脚本的输入格式与适用范围见各包参考；静态检查、仿真、目标编译和物理上板分别验证不同边界，使用时记录实际执行的检查。各包的 `references/provenance.md` 说明能力范围与验证限制。
+- 技能包不附带 Vivado、Vitis、MATLAB、板端工具链或 Python 第三方库，也不授予硬件、器件或工具链授权。
+- 静态检查、仿真、目标编译与物理上板分别验证不同边界；使用时记录实际执行的检查与未覆盖项。
+- 各包的 `references/provenance.md` 说明能力范围、来源与验证限制。
+- 文档描述的是通用工程方法与判据，不替代实际测量、完整实现审查或光学板测。
