@@ -5,7 +5,7 @@
     ".gitignore": "79ce2a980cf37bc9958d02ab878e8cc60145bf82d8b097bc793e0af26321a66b",
     "DEPENDENCIES.md": "49fafa58ec5acc595e9e57810626a32c11e3ed58315bdc561204199012cdf9b2",
     "LICENSE": "bc8601dad1cafb96cbe0603dea8af52aa8516203c57994bb8a6408c6aba50dc2",
-    "README.md": "8bfe65202c89418fd733deb38c44fc1e6d42899ea088ae0d0f97ba6fbb63f6fd",
+    "README.md": "db68b5fb0d72d8ee1a4b50a17fdbccf7cb0bb03d885c938fba1ab0f198b62883",
     "board/boot_files.py": "1f7d17805d4c1f615ba74be1f6c72ee4b1ae05899e74407d5f6caaba93dbd9fa",
     "board/control/c04-r4-modules.conf": "c54fcc2708a7f7d4092d446fc4143ec0e486bb5d39b2f43b865dd5bcbf66b18f",
     "board/control/camera/camera_control.py": "94bc605aad5254b746cdc2f432143c09cda8383538466e0a13f7852353cef03c",

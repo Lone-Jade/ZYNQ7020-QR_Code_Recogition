@@ -121,28 +121,30 @@ ZYNQ7020-QR_Code_Recogition/
 
 ## 4. 使用方法
 
-完整流程如下，各步骤可独立执行：
+本节按“准备主机 → 获取源码和依赖 → 准备板上 Linux、编译软件与驱动 → 构建 PL/HLS 和启动固件 → 板端安装 → 检查输出”的顺序说明。除明确标为“板端”的命令外，均在 **Ubuntu 22.04 LTS x86-64 主机的 Bash 终端**执行；进入仓库后，后续主机命令均以仓库根目录为工作目录。
 
-```text
-准备环境 → 获取源码与基础依赖 → 本地验证 → 编译 ARM 软件与驱动
-        → 重建 PL/HLS 与启动包 → 板端安装 → 运行、采集与校验
-```
+### 4.1 环境准备
 
-只做软件验证时，只需第 4.1~4.3 节；重新生成可上板产物需要 AMD 工具链并完成第 4.4~4.6 节。
+整体使用两套操作系统：开发主机为 **Ubuntu 22.04 LTS x86-64**（本项目源码复现验证主机为 22.04.5）；AX7021B 板端为 **ARM32 PYNQ/Linux**，原系统基于 Ubuntu 22.04 Jammy 根文件系统和 PYNQ 3.1.1 适配。板端最终运行的定制内核必须与本仓库驱动一致，版本见第 4.3 节。
 
-### 4.1 准备构建环境
+| 项目 | 要求 |
+| --- | --- |
+| 硬件 | AX7021B / XC7Z020CLG484-2、项目使用的摄像头、HDMI 显示器、带匹配系统的 SD 卡、电源与网线；USB-UART 用于启动排查 |
+| PL / HLS 工具 | AMD Vivado、Vitis 2025.2；RTL 仿真使用 Vivado XSim，HLS 重建使用 Vitis HLS |
+| 主机 Python | Python 3.10 或更新版本；使用独立虚拟环境安装验证与串口依赖 |
+| ARM 编译器 | Cortex-A9 / ARMv7 / NEON / hard-float；参考工具链为 AMD GCC 13.4.0 |
+| 启动打包工具 | XSCT、bootgen、dtc、mkimage、GNU binutils |
+| 板端运行环境 | systemd、SSH、Python 3、NumPy；项目运行解释器为 `/usr/local/share/pynq-venv/bin/python` |
 
-完整硬件构建使用 Linux x86-64、Python 3.10 或更新版本、AMD Vivado/Vitis **2025.2**，目标 Cortex-A9 / ARMv7 / NEON / hard-float。参考 ARM 工具链为 AMD GCC 13.4.0。启动文件打包还需要 XSCT、bootgen、dtc、mkimage；RTL 验证使用 XSim。
-
-Ubuntu 通用依赖：
+先安装 Ubuntu 通用依赖：
 
 ```bash
 sudo apt update
 sudo apt install git build-essential python3-venv python3-pip binutils \
-    device-tree-compiler u-boot-tools libssl-dev libelf-dev
+    device-tree-compiler u-boot-tools libssl-dev libelf-dev openssh-client
 ```
 
-AMD 工具需自行安装。设置实际路径：
+AMD 工具需另行安装。以下路径仅为示例，请改为实际安装目录，并在每个新开的构建终端中设置：
 
 ```bash
 export AMD_ROOT="$HOME/tools/2025.2"
@@ -150,85 +152,108 @@ export VIVADO_ROOT="$AMD_ROOT/Vivado"
 export VITIS_ROOT="$AMD_ROOT/Vitis"
 export CC_ARM="$VITIS_ROOT/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin/arm-linux-gnueabihf-gcc"
 export PATH="$VIVADO_ROOT/bin:$VITIS_ROOT/bin:$PATH"
+
+python3 --version
+vivado -version
+"$CC_ARM" --version
+command -v xsct bootgen dtc mkimage
 ```
 
-Windows 11 的完整构建入口使用 WSL2 Ubuntu 或 Linux 虚拟机，按相同命令操作；不承诺 PowerShell 原生完整构建。
+应能找到上述工具，Vivado 应显示 2025.2。Windows 11 用户可在 WSL2 Ubuntu 或 Linux 虚拟机中按本节 Linux 流程操作；本仓库未验证 PowerShell 原生完整构建。HDMI 是板端视频输出，命令行登录使用 SSH 或 USB-UART。
 
-### 4.2 获取源码与基础依赖
+### 4.2 克隆仓库和安装依赖
+
+以下使用 HTTPS 克隆；如果已配置 SSH 密钥，可改用注释中的 SSH 命令，**两种方式任选一种**：
 
 ```bash
-# http
 git clone https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition.git
-
-# ssh
-git clone git@github.com:Lone-Jade/ZYNQ7020-QR_Code_Recogition.git
-
+# git clone git@github.com:Lone-Jade/ZYNQ7020-QR_Code_Recogition.git
 cd ZYNQ7020-QR_Code_Recogition
-python3 -B build/scripts/verify_release.py
 
-# 下载匹配 Linux 模块 SDK 和平台启动输入，不下载已编译项目交付物：
+python3 -B build/scripts/verify_release.py
+python3 -m venv .venv
+.venv/bin/python -m pip install -r sim/requirements.txt -r board/requirements-host.txt
+
 python3 -B build/scripts/fetch_dependencies.py
 python3 -B build/scripts/verify_release.py --dependencies
 ```
 
-依赖固定在同一仓库的 [source-deps-v1 Release](https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition/releases/tag/source-deps-v1)。公开仓库可以直接下载；私有仓库需先安装 GitHub CLI 并执行 `gh auth login`，使用拥有本仓库读取权限的账户。脚本校验每个文件的大小及 SHA-256，缓存位于被 Git 忽略的 `build/deps/`；不会安装到系统或连接板卡。
+固定基础依赖来自同一仓库的 [source-deps-v1 Release](https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition/releases/tag/source-deps-v1)，共 335,002,276 字节，解包和构建还需数 GiB 以上工作空间。脚本按 `build/DEPENDENCIES.json` 核对大小和 SHA-256，缓存到 `build/deps/`。仓库为私有时，需先安装 GitHub CLI，并用有读取权限的账户执行 `gh auth login`；公开仓库可直接下载。分组下载和离线导入方法见 [DEPENDENCIES.md](DEPENDENCIES.md)。
 
-只做 PS/Native/RTL 验证无需下载 SDK。只编译驱动时使用 `--group kernel-sdk`；只准备启动文件输入时使用 `--group platform`。已有原始依赖时可按 DEPENDENCIES.md 离线导入。
-
-### 4.3 本地验证（不需要 AMD 工具链）
+只做 Python / Native 软件验证时，可以跳过基础依赖下载与 AMD 工具安装，执行：
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r sim/requirements.txt
 .venv/bin/python -B sim/scripts/test_python.py
 python3 -B build/scripts/build_arm.py --native --label native
 .venv/bin/python -B sim/scripts/native_multi_geometry.py
-python3 -B build/scripts/r4_rtl_test.py   # 需要 Vivado XSim
 ```
 
-Python 验证覆盖 PS/显示状态、过期与乱序、目标关联、相机 AEC/AGC 配置、依赖损坏拒绝和重建运行包身份绑定。Native 验证用实际 quirc 解码器检查双码及同内容双码的载荷/四角对应。XSim 验证分流、背压、源身份及场景原子提交。已记录的验证结果见 `sim/results/` 与 `build/reports/source-submission.json`；这些验证不替代实际运动场景的光学测试与整机测量。
+这些检查覆盖状态管理、相机配置和 quirc 解码器的多目标载荷/四角对应；已有结果见 `sim/results/`。RTL 仿真另见第 4.4 节，需要 XSim。
 
-### 4.4 编译 ARM 软件与驱动
+### 4.3 板上 Linux 系统准备与构建
+
+**先准备可启动的 AX7021B PYNQ/Linux 系统，再重建本项目的软件、驱动和启动固件。** 当前 `source-deps-v1` Release 的内容如下（2026-11-02 核对）：
+
+| Release 附件 | 用途 |
+| --- | --- |
+| `kernel-sdk.tar.gz.part01`～`part08` | 匹配内核的源码、配置和已准备的模块编译环境，用于重建三个项目驱动 |
+| `u-boot.elf` | 启动文件打包使用的 U-Boot 输入 |
+| `zImage` | 已编译的匹配 Linux 内核，后续封装进 `image.ub` |
+| `boot.scr` | SD 卡启动脚本 |
+
+上述附件**不包含完整 SD 卡镜像或 PYNQ 根文件系统**，不能直接写入空白 SD 卡启动。已有匹配系统时，可沿用根文件系统和分区布局，再按本节与第 4.4、4.5 节更新驱动、启动文件和应用。使用空白卡时，还需取得匹配 AX7021B 的完整系统镜像，或根文件系统、板级配置与系统构建输入；这些输入目前没有在本仓库 Release 中提供，因此本仓库当前不能独立完成“空白 SD 卡到完整 PYNQ 系统”的构建。
+
+原系统使用 SD 卡启动分区和持久化 Linux 根文件系统，启动关系为：
+
+```text
+BOOT.BIN（FSBL + PL 位流 + U-Boot + 设备树）
+    → boot.scr → image.ub（Linux 内核 + 设备树）→ SD 卡根文件系统
+```
+
+板端应能通过 SSH 或串口登录，启动分区挂载到 `/boot`，运行解释器应能导入 NumPy。可在现有板端检查：
+
+```bash
+# 板端执行
+uname -m
+findmnt /
+findmnt /boot
+/usr/local/share/pynq-venv/bin/python -c 'import numpy; print(numpy.__version__)'
+```
+
+CPU 架构应为 `armv7l`。不要直接套用其他 PYNQ 板卡的镜像；从零适配可参考 [PYNQ 3.1 系统构建指南](https://pynq.readthedocs.io/en/v3.1/pynq_sd_card.html)，但仍需 AX7021B 板级定义和本项目 2025.2 工具链适配，不能把通用 rootfs 当作完整板卡镜像。
+
+回到主机仓库根目录，编译 ARM 用户态软件与三个内核驱动：
 
 ```bash
 python3 -B build/scripts/build_arm.py --label arm
 python3 -B build/scripts/build_kernel.py --label modules
 ```
 
-产物位于 `build/work/arm/` 和 `build/work/kernel/modules/`。驱动使用固定 SDK 中的 Linux 源码和 prepared build tree，模块版本为：
+| 输出目录 | 内容 |
+| --- | --- |
+| `build/work/arm/` | ARM 用户态程序、库与编译校验记录 |
+| `build/work/kernel/modules/module/` | `ax7021b_qr_capture.ko`、`ax7021b_qr_fitness.ko`、`ax7021b_camera_display.ko` |
+| `build/work/kernel/modules/build_receipt.json` | 驱动源码、模块哈希与内核版本校验记录 |
+
+驱动使用固定 SDK 编译，脚本检查 ARM ELF 架构、ABI 与模块 vermagic。最终内核版本必须为：
 
 ```text
 6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68
 ```
 
-脚本检查 ARM ELF 架构、ABI 与模块 vermagic。需要重做时选用新的 `--label`，避免覆盖现有输出。`src/platform/kernel/` 同时保留精确的内核配置和 `Module.symvers`，供审查和校验；它们不能单独代替完整模块编译环境。
+这里的 `build_kernel.py` 编译项目驱动；内核本体使用 Release 中已锁定的 `zImage`。第 4.4 节会生成新的 FSBL、设备树及启动文件，第 4.5 节安装并重启后，再用 `uname -r` 核对最终版本。`src/platform/kernel/` 中的配置与 `Module.symvers` 用于审查和校验，不能单独代替完整 SDK 或根文件系统。
 
-### 4.5 重建 PL、HLS 与启动文件
+### 4.4 Vivado 工程构建与 HLS IP 生成
 
-用保留的导出 HLS IP 创建工程并完整综合实现：
+默认流程使用仓库中已导出的 HLS IP，从 RTL、Tcl、约束和本地 IP 重新创建 Vivado 工程并完成综合、实现与 XSA 导出：
 
 ```bash
 python3 -B build/scripts/hardware.py rebuild1
-python3 -B build/scripts/qualify.py rebuild1
 ```
 
-如只检查工程重建入口，可执行 `python3 -B build/scripts/hardware.py createcheck --create-only`，但这不会进行综合实现。
+生成的工程为 `build/work/rebuild1/ax7021b_linux_qr_desktop/ax7021b_linux_qr_desktop.xpr`，可用 Vivado 2025.2 打开查看；包含位流的 XSA 位于 `build/work/rebuild1/output/ax7021b_linux_qr_desktop.xsa`。只检查工程创建而不综合实现时，可单独执行 `python3 -B build/scripts/hardware.py createcheck --create-only`。
 
-综合实现输出位于 `build/work/rebuild1/`。`qualify.py` 检查资源、setup/hold、DRC、bus skew 及 CDC；首次检查会要求审查完整 CDC 报告。审查 JSON 必须与本次 routed DCP 的 SHA-256 匹配，不能直接使用参考设计的审查结论：
-
-```bash
-python3 -B build/scripts/qualify.py rebuild1 --cdc-review /path/to/cdc-review.json
-python3 -B build/scripts/package_boot.py rebuild1
-python3 -B build/scripts/r4_package_runtime.py --arm-label arm --kernel-label modules \
-    --firmware build/outputs/boot-rebuild1 --output build/outputs/runtime-rebuild1
-python3 -B build/scripts/stage_board.py \
-    --firmware build/outputs/boot-rebuild1 --runtime build/outputs/runtime-rebuild1 \
-    --output build/outputs/board-rebuild1
-```
-
-`stage_board.py` 校验启动文件与运行包的绑定，再装配安装目录；不生成压缩包、不部署、不启动板卡。重建的运行包具有自己的 SHA-256，安装器会将相机控制程序绑定到本次经校验的运行包。
-
-需要重新生成 HLS 核时：
+如果修改了 HLS 源码，或希望从 HLS 源码重新生成 IP，改用以下分支：
 
 ```bash
 python3 -B build/scripts/build_hls.py --stage all
@@ -237,61 +262,121 @@ python3 -B build/scripts/hardware.py rebuildhls \
     --fitness-receipt build/reports/generated/hls/result.json
 ```
 
-新硬件必须重新做资格检查及上板验证后再部署。基础依赖中的 U-Boot 和 zImage 是与现有 PYNQ 系统匹配的平台输入；本仓库不声称从零构建整套 Linux 发行版或 SD 卡镜像。
+HLS 流程包含 C 仿真、综合、IP 导出和 C/RTL 对比。选择此分支后，下文所有 `rebuild1` 均替换为 `rebuildhls`，包括输出目录名，保证使用同一次硬件构建的产物。重做构建时使用新的 `--label` 或硬件构建标签，避免覆盖已有目录。
 
-### 4.6 板端安装
-
-板端需要已有匹配的 PYNQ/Linux 根文件系统、NumPy 环境和 SD 启动布局。完整 rootfs 与分区镜像不包含在源码或依赖 Release 中。
-
-以下步骤会更新板端启动文件和安装运行包，应只在完成构建与审查后手动执行。替换示例用户和地址：
+运行 RTL 仿真和新硬件资格检查：
 
 ```bash
-# 主机：复制上一步装配的目录
+python3 -B build/scripts/r4_rtl_test.py
+python3 -B build/scripts/qualify.py rebuild1
+```
+
+资格检查覆盖资源、setup/hold、DRC、bus skew 与 CDC。自动检查通过但尚未提交人工 CDC 审查时，脚本会提示 `Bounds passed; inspect the full CDC diagnostics...` 并退出；这是要求补齐审查，不能当作完整通过。其他报错应先排查。
+
+审查本次 `build/work/rebuild1-cdc/full-cdc.txt` 等完整报告，并计算本次 routed DCP 的哈希：
+
+```bash
+sha256sum build/work/rebuild1/ax7021b_linux_qr_desktop/ax7021b_linux_qr_desktop.runs/impl_1/qr_desktop_top_routed.dcp
+```
+
+审查通过后创建自己的 JSON，例如 `build/work/rebuild1/cdc-review.json`，其中 `passed` 为 `true`、`reference_sha256` 为上述实际 SHA-256，并记录审查依据。必须先完成真实审查，不能直接复制参考设计结论。随后执行：
+
+```bash
+python3 -B build/scripts/qualify.py rebuild1 \
+    --cdc-review build/work/rebuild1/cdc-review.json
+python3 -B build/scripts/package_boot.py rebuild1
+python3 -B build/scripts/r4_package_runtime.py --arm-label arm --kernel-label modules \
+    --firmware build/outputs/boot-rebuild1 --output build/outputs/runtime-rebuild1
+python3 -B build/scripts/stage_board.py \
+    --firmware build/outputs/boot-rebuild1 --runtime build/outputs/runtime-rebuild1 \
+    --output build/outputs/board-rebuild1
+```
+
+启动包位于 `build/outputs/boot-rebuild1/`；板端安装目录位于 `build/outputs/board-rebuild1/`，含启动文件、驱动、运行包与安装工具。装配脚本检查固件和运行包的身份绑定，只生成目录，不生成压缩包、不连接板卡。修改 PL/HLS 后需重新完成资格检查和实际板测。
+
+### 4.5 板端安装和使用
+
+先连接摄像头、HDMI、网线并启动现有板端系统。下例的 `xilinx` 和 `192.168.1.11` 均为占位值，请改为实际账户与地址；复制目标目录应尚不存在，重复安装时换一个新目录名。
+
+```bash
+# 主机执行
 scp -r build/outputs/board-rebuild1 xilinx@192.168.1.11:~/zynq-qr-board
 ssh xilinx@192.168.1.11
-# 板端：安装匹配启动文件与模块，然后重启
+```
+
+以下在板端执行。安装工具会备份被替换的文件并输出备份位置，请保留该位置用于恢复：
+
+```bash
+# 板端：安装匹配启动文件和驱动，再重启
 cd ~/zynq-qr-board
 sudo python3 -B boot_files.py install
 sudo reboot
-# 重连板端后
+```
+
+等待板卡重启后，从主机重新 SSH 登录，再在板端执行：
+
+```bash
 cd ~/zynq-qr-board
+uname -r
 sudo sh install.sh
+sudo zynq-qr status
+```
+
+`uname -r` 应与第 4.3 节完全一致。安装完成保持停止；若安装器返回 `reboot_required: true`，先重启再启动。正常使用命令如下：
+
+```bash
 sudo zynq-qr start
 sudo zynq-qr status
 sudo zynq-qr logs
+# 结束识别时执行
 sudo zynq-qr stop
 ```
 
-安装工具输出原文件备份位置，保留该位置以便恢复；安装结束保持停止。若安装器返回 `reboot_required: true`，先重启再启动。启动方式为手动命令；关闭 SSH 不会停止服务，重启板卡后需再次执行 `start`。
-
-### 4.7 运行、相机与数据输出
-
-在完成安装的板端执行：
+启动后关闭 SSH 不会停止识别；重启板卡后需要再次手动执行 `start`。每次正常启动默认启用自动曝光 AEC 和自动增益 AGC，上限为 4 ms、8 倍。可按需调整：
 
 ```bash
-sudo zynq-qr start
 sudo zynq-qr-camera status
 sudo zynq-qr-camera auto --max-exposure-ms 3 --max-gain 6
+# 或使用固定曝光与增益
+sudo zynq-qr-camera apply --exposure-ms 4 --gain 4
+# 恢复默认自动配置
 sudo zynq-qr-camera restore
+```
+
+调整配置会短暂停止相机与识别，再恢复之前状态；覆盖配置在板卡重启后失效。`status` 展示配置和初始化回读，不能读取逐帧实际曝光/增益。
+
+需要在终端查看解码载荷时：
+
+```bash
 sudo zynq-qr-data --enable
 sudo zynq-qr-data
-# Ctrl+C退出输出；取消本次事件输出配置：
+# Ctrl+C 退出查看；取消本次事件输出配置
 sudo zynq-qr-data --disable
 ```
 
-默认 AEC/AGC 上限为 4 ms、8 倍。手动固定可用 `sudo zynq-qr-camera apply --exposure-ms 4 --gain 4`。覆盖配置和事件输出开关在重启后失效。调整配置会短暂停止相机与识别，再恢复之前状态。状态展示配置及初始化回读，不能读取逐帧实际曝光/增益；运动模糊改善和识别率需光学板测。
-
-### 4.8 串口控制台与 HDMI
-
-串口参数为 **115200、8N1、关闭软/硬流控**：
+启用事件输出时，若识别正在运行，会重启识别进程以应用配置；该配置在板卡重启后失效。SSH 不可用时，可在主机使用 USB-UART 控制台：
 
 ```bash
-.venv/bin/python -m pip install -r board/requirements-host.txt
 .venv/bin/python board/serial_console.py --port /dev/ttyUSB0
-# Windows可用：py -3 board/serial_console.py --port COM5
+# Windows 串口终端示例：py -3 board/serial_console.py --port COM5
 ```
 
-HDMI 是视频输出；命令行登录使用 SSH 或 USB-UART。
+串口参数为 **115200、8N1、关闭软/硬流控**。
+
+### 4.6 预期输出效果
+
+| 检查项 | 预期现象 |
+| --- | --- |
+| HDMI 画面 | 摄像头 1280×720 彩色预览；输入约 30 FPS，HDMI 输出时序为 60 Hz |
+| 识别叠加 | 成功解码的目标显示绿色框和最多 9 个 ASCII 字符的标签 |
+| `sudo zynq-qr status` | 正常启动后 `state` 为 `running`，`artifact_integrity` 为 `true`；停止后为 `stopped` |
+| `sudo zynq-qr-camera status` | 显示 AEC/AGC 或固定配置及初始化回读 |
+| `sudo zynq-qr-data` | 启用后跟随新的解码事件，每行输出完整载荷文本；同一发布事件去重，控制字符转义 |
+| 日志 | `sudo zynq-qr logs` 可查看服务启动与识别日志，用于定位相机、驱动或运行包问题 |
+
+例如，将内容为 `WAREHOUSE-001` 的二维码放入摄像头视野，正常解码后 HDMI 对应位置出现绿色框及长度受限的标签；终端数据输出应包含完整的 `WAREHOUSE-001`。HDMI 标签长度与终端完整载荷长度不同。
+
+启动后可短暂处于 `starting`；若长期未进入 `running`、完整性检查未通过或画面异常，结合状态、日志与串口输出排查。第 2.3 节的识别率和吞吐量为项目指定测试场景的测量结果，复现时需在实际光照、距离、运动速度和二维码尺寸条件下重新测量；主机仿真或成功打包不能替代板端整机验收。
 
 ## 5. 测试结果与数据文件
 
