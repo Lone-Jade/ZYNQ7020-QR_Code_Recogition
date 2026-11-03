@@ -1,0 +1,7 @@
+﻿"scope","speed","expected_per_version","final_matched","ps_matched","final_recall_percent","ps_recall_percent","recall_gain_percentage_points","final_processing_fps","ps_processing_fps","processing_fps_ratio","input_basis"
+"all","","1000","999","909","99.9","90.9","9","28.069766715763475","3.074433007942088","9.13006289070268","same generator sequence; independently captured camera frames"
+"speed","6","200","199","161","99.5","80.5","19","29.970235055584475","3.1624394370668405","9.47693565426247","same generator sequence; independently captured camera frames"
+"speed","4.8","200","200","179","100","89.5","10.5","29.94287049078002","3.205795061130004","9.340232273059128","same generator sequence; independently captured camera frames"
+"speed","3.6","200","200","182","100","91","9","29.939089889488184","3.123133941919585","9.58623307429671","same generator sequence; independently captured camera frames"
+"speed","2.4","200","200","195","100","97.5","2.5","27.07384680867833","2.996866709204466","9.034051039215296","same generator sequence; independently captured camera frames"
+"speed","1.8","200","200","192","100","96","4","24.15795498242993","2.9211310159015014","8.270068973600779","same generator sequence; independently captured camera frames"

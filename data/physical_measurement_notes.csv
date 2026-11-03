@@ -1,0 +1,15 @@
+﻿item,definition
+sample,actual K4/K5/K6; 50 papers numbered 1..50 per size; each group independently deduplicates complete payload
+boundary,2026-11-03T20:56:10+08:00; events at/before boundary are actual K5; later events actual K6
+time_mapping,estimated host time = saved host receive time + (event board monotonic - start snapshot board monotonic)
+time_uncertainty,No precise clock synchronization was recorded for the old boot. Request-to-receive anchor window: 15.805006 seconds. Sensitivity table varies the split across this window; clock drift and human boundary timing were not measured.
+user_acceptance,XIWEI explicitly requested use of 20:56:10 with time error noted; opening paper order not recalled
+recognition,50/50 for K5/K6 are nominal results at the selected estimated boundary; not invariant across every possible clock anchor. See min/max and boundary_sensitive.
+recovery,"Old boot persistent journal recovered read-only after power cycle; 3338 journal entries. Original boot ID, PID and source epoch verified."
+sampling,"No final live service snapshot was captured before power-off. Recovered group FPS uses progress samples within each estimated group interval, including waits and any tail before power-off."
+exposure,AEC/AGC automatic; configured exposure ceiling 4 ms and gain ceiling 8x verified before video start; not per-frame actual exposure/gain.
+speed,Physical belt speed not measured; no virtual speed substituted.
+sizes,K labels corrected by XIWEI; printed size labels are not measured camera pixels/module.
+invalid_attempts,Original incorrect-input and exposure-diagnosis attempts are excluded.
+source_directories,Historical directory names retained; all submitted k labels corrected to actual sizes.
+encoding,"UTF-8 BOM CSV, comma separated; original numeric precision retained."

@@ -8,7 +8,7 @@
 >
 > 本项目基于Zynq-7020/AX7021B，设计面向仓储场景的二维码识别与硬件加速系统。依托PS-PL协同架构，PL完成摄像头采集、灰度处理、候选区域提取、透视网格评分加速及彩色预览与标注叠加；PS/Linux负责系统控制、任务调度、定位后端、最终采样、纠错解码及结果管理。通过流水线评分、整网格作业与独立显示通路提高并行处理效率，减少软硬件交互及ARM显示开销，并利用帧身份校验与缓冲管理保障数据一致性。软硬件一体化设计减少对独立高性能工控机的依赖，具有降低部署成本和运行功耗的潜力。
 >
-> 最终构建了一套低时延、高可靠的边缘视觉识别系统，在仓储物流传送带仿真网页与真实二维码传送带场景中，经摄像头采集测试，系统总体识别成功率达99.94%，平均吞吐量达27.94 FPS，为智能仓储和自动化物流中的高速信息采集提供了一种可行的嵌入式硬件加速方案。
+> 最终构建了面向仓储物流场景的嵌入式视觉识别系统。2026年10月27日的传送带网页光学回放测试中，最终版在5000个目标中识别4997个，识别率99.94%，按采样时长加权的处理帧率为27.94 FPS；纯PS版在1000个目标中识别909个。2026年11月3日另开展了实际K4～K6纸片的真实传送带测试，结果及连续测试分组的时间误差单独列于第5节，不与网页测试合并统计。
 
 ## 2. 项目基本情况
 
@@ -28,7 +28,8 @@
 - 摄像头输入为 1280×720、约 30 FPS，HDMI 输出时序为 60 Hz
 - 解码成功目标显示绿色框及最多 9 个 ASCII 字符的标签
 - 正常启动使用 `sudo zynq-qr start`，每次启动默认启用自动曝光 AEC 和自动增益 AGC，上限为 4 ms、8 倍
-- 在传送带仿真网页与真实二维码传送带场景中经摄像头采集测试，系统总体识别成功率达 99.94%，平均吞吐量达 27.94 FPS
+- 网页光学回放：最终版 4997/5000，识别率 99.94%，加权处理帧率 27.94 FPS；纯 PS 版 909/1000，识别率 90.90%，加权处理帧率 3.07 FPS
+- 真实传送带：实际 K4 独立组为 50/50；实际 K5、K6 在指定的估算时间分界下各为 50/50。K6 对时间分界敏感，须结合第 5.2 节的误差说明解读
 
 ## 3. 仓库结构
 
@@ -92,7 +93,7 @@ ZYNQ7020-QR_Code_Recogition/
 │   ├── requirements-host.txt  主机侧串口依赖
 │   └── ssh_control.sh      主机侧 SSH 辅助脚本
 ├── skill/                  13 个可独立复用的工程技能包（见 skill/README.md）
-├── data/                   扩展测试数据预留目录
+├── data/                   网页最终版5000次、纯PS1000次及真实传送带K4～K6测试CSV与校验记录
 └── report/                 设计报告与过程记录预留目录
 ```
 
@@ -292,7 +293,69 @@ sudo zynq-qr-data --disable
 
 HDMI 是视频输出；命令行登录使用 SSH 或 USB-UART。
 
-## 5. 校验与验证边界
+## 5. 测试结果与数据文件
+
+提交数据位于 [`data/`](data/)，包括 24 个 UTF-8 BOM 编码的 CSV 和 1 个真实传送带导出校验 JSON。网页光学回放和真实传送带分别统计；不同尺寸、不同版本中的同编号纸码不合并为一个目标。
+
+### 5.1 网页光学回放：最终版与纯 PS
+
+测试日期为 **2026-10-27**。原虚拟传送带生成器经显示器全屏播放，再由摄像头拍摄识别。
+
+| 版本与范围 | 有效组数 | 展示目标数 | 成功 | 漏检 | 识别率 | 加权处理 FPS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 最终版（PS+PL）累计 | 50 | 5000 | 4997 | 3 | 99.94% | 27.939 |
+| 纯 PS 版 | 10 | 1000 | 909 | 91 | 90.90% | 3.074 |
+
+最终版累计包含原有 1000 次和后续追加 4000 次，每组 100 个目标；纯 PS 保留原有 1000 次，没有追加到 5000 次。场景为源画布 1280×760、源 K4～K6、固定双车道、密度 6、旋转角度 −180°～180°，无额外模糊或污损。生成器速度取 6.0、4.8、3.6、2.4、1.8，单位为生成器单位，源画布像素速度为速度值乘 135，不能换算为本次实物传送带速度。
+
+相同输入序列的对照限于最终版原有 1000 次与纯 PS 的 1000 次：分别成功 999、909 个，识别率为 99.90%、90.90%；加权处理帧率为 28.070、3.074 FPS，比值约 9.13。两版本分别经摄像头采集，已核对完整 payload、尺寸、角度、车道和形状一致；它们不是同一批相机像素帧。该帧率比值描述本次运行条件下的处理表现，不代表纯计算核最大加速比。
+
+### 5.2 真实传送带：实际 K4～K6
+
+测试日期为 **2026-11-03**。三种尺寸各 50 张二维码纸片，编号均为 1～50，组内顺序不限。完整内容沿用原虚拟传送带场景网页的编号规则。尺寸名称已按实物更正：**原称 K3→实际 K4，原称 K4→实际 K5，原称 K5→实际 K6**；CSV 的 `k` 为更正后的实际标签，`recorded_k` 保留更正前的名称。K 在此是纸片尺寸标签，不是实测相机像素/模块。
+
+| 实际尺寸 | 成功/展示 | 识别率 | 记录方式 |
+| --- | ---: | ---: | --- |
+| K4 | 50/50 | 100.00% | 独立分组，原始日志已封存 |
+| K5 | 50/50 | 100.00% | 连续日志恢复后，按指定时间的估算分界统计 |
+| K6 | 50/50 | 100.00% | 连续日志恢复后，按指定时间的估算分界统计；对分界敏感 |
+
+K5、K6 连续测试的指定切换时间为 **北京时间 2026-11-03 20:56:10**：估算时间不晚于该时刻的解码记录归 K5，晚于该时刻的归 K6。板卡随后关机/重启，恢复时从上次启动的持久 journal 中取回 3338 条记录，核对了原启动编号、识别进程 PID 和相机 source epoch。
+
+**连续两组的分界存在时间误差。**旧启动未保存精确时钟同步，板卡墙钟也与电脑不同；因此使用开始快照的板端单调时间与电脑接收时间估算。开始请求至接收的锚点窗口约 **15.805 秒**，时钟漂移和人为切换误差未另行测量。上表的 K5、K6 结果属于指定估算分界下的结果，不能视为精确分时验证。
+
+将分界在上述锚点窗口内移动，K5 的成功目标数仍为 50，K6 为 **42～50**。K6 的 **11、14、20、24、39、44、47、50 号**对分界敏感，逐目标的 `boundary_sensitive` 字段和分界敏感性表已保留这些差异；这个范围仅描述所分析的锚点窗口，不覆盖未测量的全部误差。
+
+测试采用自动曝光 AEC、自动增益 AGC，配置曝光上限 4 ms、增益上限 8 倍，启动前寄存器读回通过；这些是配置与初始化读回，不能作为每帧实际曝光/增益。此前输入错误和相机诊断中断的尝试均排除。真实传送带速度未测量，没有用网页速度替代。
+
+真实测试的处理帧率保留于 CSV。K5、K6 的值来自各估算时间段内的 worker progress 样本，可能包含等待和结束过码至关机前的尾段；关机前没有取得最终实时服务快照，因此不将它们作为独立、受控的吞吐量对比。
+
+### 5.3 数据索引
+
+| 数据文件 | 内容 |
+| --- | --- |
+| [test_summary.csv](data/test_summary.csv) | 网页最终版 5000 次与纯 PS 1000 次总览 |
+| [final_5000_groups.csv](data/final_5000_groups.csv)、[final_5000_targets.csv](data/final_5000_targets.csv) | 最终版 50 组、5000 条目标明细 |
+| [final_5000_by_speed.csv](data/final_5000_by_speed.csv)、[final_5000_by_speed_k.csv](data/final_5000_by_speed_k.csv) | 最终版按生成器速度及源 K 分档 |
+| [pure_ps_1000_groups.csv](data/pure_ps_1000_groups.csv)、[pure_ps_1000_targets.csv](data/pure_ps_1000_targets.csv) | 纯 PS 10 组、1000 条目标明细 |
+| [pure_ps_1000_by_speed.csv](data/pure_ps_1000_by_speed.csv)、[pure_ps_1000_by_speed_k.csv](data/pure_ps_1000_by_speed_k.csv) | 纯 PS 按生成器速度及源 K 分档 |
+| [paired_1000_comparison.csv](data/paired_1000_comparison.csv)、[missed_targets.csv](data/missed_targets.csv) | 网页原有 1000 次同序列对照及两版本漏检清单 |
+| [physical_summary.csv](data/physical_summary.csv)、[physical_targets.csv](data/physical_targets.csv) | 实际 K4～K6 汇总和 150 条目标结果 |
+| [physical_K4_targets.csv](data/physical_K4_targets.csv)、[physical_K5_targets.csv](data/physical_K5_targets.csv)、[physical_K6_targets.csv](data/physical_K6_targets.csv) | 三种实际尺寸各 50 条明细 |
+| [physical_continuous_decode_events.csv](data/physical_continuous_decode_events.csv) | 恢复的连续测试逐解码记录、估算时间和归组 |
+| [physical_boundary_sensitivity.csv](data/physical_boundary_sensitivity.csv)、[physical_label_corrections.csv](data/physical_label_corrections.csv) | 分界敏感性与尺寸标签更正映射 |
+| [measurement_notes.csv](data/measurement_notes.csv)、[data_dictionary.csv](data/data_dictionary.csv)、[source_manifest.csv](data/source_manifest.csv) | 网页测试口径、字段含义和来源哈希 |
+| [physical_measurement_notes.csv](data/physical_measurement_notes.csv)、[physical_source_manifest.csv](data/physical_source_manifest.csv)、[physical_export_audit.json](data/physical_export_audit.json) | 真实测试口径、恢复来源及导出文件校验 |
+
+### 5.4 计数与验证口径
+
+- 识别成功按组内完整 payload 匹配。`recognized=1` 表示该目标至少解码成功一次；重复解码仅增加 `decode_observations`，不增加成功目标数。
+- 识别率以确认展示的目标数为分母；`unexpected_unique` 单列不属于该组真值的额外内容。当前导出的三类测试中均为 0。
+- 处理 FPS 来自 worker 累计帧数与采样时间之差，汇总时按采样时长加权，包含运行等待；它不等于 HDMI 刷新率、预览帧率或网页渲染帧率，本次没有测量端到端延迟。
+- 真实连续测试的 `time_is_estimate=1`、`boundary_sensitive` 和 `recognized_min_over_anchor_window` / `recognized_max_over_anchor_window` 用于保留分界不确定性，不应在引用结果时省略。
+- 原始运行目录保留采集时的历史名称。来源清单用于定位和核对归档，提交 CSV 的实际尺寸标签以 `k` 为准，不按原目录名反推。
+
+## 6. 校验与验证边界
 
 `build/MANIFEST.json` 校验源码内容；`build/DEPENDENCIES.json` 固定基础依赖；`build/RELEASE.json` 记录来源及参考固件身份，不要求参考二进制存在；`build/reports/source-submission.json` 记录本次源码拆分验证范围。修改源码或文档后，先运行 `python3 -B build/scripts/update_manifest.py` 重建清单，再用 `verify_release.py` 复核。
 
@@ -300,10 +363,12 @@ HDMI 是视频输出；命令行登录使用 SSH 或 USB-UART。
 
 `build/reports/` 中的参考资源、时序、DRC、CDC、HLS 报告保留原始结果，并不代表每次源码构建都重新通过。参考设计有继承的 CDC 诊断和外部 I/O 时序提示，须结合完整报告审查。源码精简验证不等于新的完整综合实现或上板验证。
 
-## 6. 文档索引
+## 7. 文档索引
 
 | 文档 | 内容 |
 | --- | --- |
+| [data/test_summary.csv](data/test_summary.csv) | 网页最终版 5000 次与纯 PS 1000 次汇总 |
+| [data/physical_summary.csv](data/physical_summary.csv) | 真实 K4～K6 汇总，须结合第 5.2 节和时间误差说明 |
 | [DEPENDENCIES.md](DEPENDENCIES.md) | 基础依赖清单、下载、离线导入与精简范围 |
 | [skill/README.md](skill/README.md) | 13 个可独立复用的工程技能包及其使用方式 |
 | [board/results/INTERFACES.md](board/results/INTERFACES.md) | PS/PL 运行接口与显示 ABI |
@@ -312,7 +377,7 @@ HDMI 是视频输出；命令行登录使用 SSH 或 USB-UART。
 | [src/hardware/pynq_ax7021b/hardware/qr_desktop/README.md](src/hardware/pynq_ax7021b/hardware/qr_desktop/README.md) | AX7021B 二维码视频硬件源文件 |
 | [src/hardware/pynq_ax7021b/hardware/desktop/README.md](src/hardware/pynq_ax7021b/hardware/desktop/README.md) | R4 HDMI 直显与叠加源文件 |
 
-## 7. 许可证
+## 8. 许可证
 
 本仓库以 [MIT License](LICENSE) 发布，Copyright (c) 2026 Lone-Jade。
 
