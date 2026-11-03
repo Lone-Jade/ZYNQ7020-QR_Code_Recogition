@@ -8,7 +8,7 @@
 >
 > 本项目基于Zynq-7020/AX7021B，设计面向仓储场景的二维码识别与硬件加速系统。依托PS-PL协同架构，PL完成摄像头采集、灰度处理、候选区域提取、透视网格评分加速及彩色预览与标注叠加；PS/Linux负责系统控制、任务调度、定位后端、最终采样、纠错解码及结果管理。通过流水线评分、整网格作业与独立显示通路提高并行处理效率，减少软硬件交互及ARM显示开销，并利用帧身份校验与缓冲管理保障数据一致性。软硬件一体化设计减少对独立高性能工控机的依赖，具有降低部署成本和运行功耗的潜力。
 >
-> 最终构建了面向仓储物流场景的嵌入式视觉识别系统。2026年10月27日的传送带网页光学回放测试中，最终版在5000个目标中识别4997个，识别率99.94%，按采样时长加权的处理帧率为27.94 FPS；纯PS版在1000个目标中识别909个。2026年11月3日另开展了实际K4～K6纸片的真实传送带测试，结果及连续测试分组的时间误差单独列于第5节，不与网页测试合并统计。
+> 最终构建了面向仓储物流场景的嵌入式视觉识别系统。2026年10月27日的传送带网页仿真测试测试中，最终版在5000个目标中识别4997个，识别率99.94%，按采样时长加权的处理帧率为27.94 FPS；纯PS版在1000个目标中识别909个。2026年11月3日另开展了实际K4～K6纸片的真实传送带测试，结果及连续测试分组的时间误差单独列于第5节，不与网页测试合并统计。
 
 ## 2. 项目基本情况
 
@@ -28,12 +28,12 @@
 - 摄像头输入为 1280×720、约 30 FPS，HDMI 输出时序为 60 Hz
 - 解码成功目标显示绿色框及最多 9 个 ASCII 字符的标签
 - 正常启动使用 `sudo zynq-qr start`，每次启动默认启用自动曝光 AEC 和自动增益 AGC，上限为 4 ms、8 倍
-- 网页光学回放：最终版 4997/5000，识别率 99.94%，加权处理帧率 27.94 FPS；纯 PS 版 909/1000，识别率 90.90%，加权处理帧率 3.07 FPS
-- 真实传送带：实际 K4 独立组为 50/50；实际 K5、K6 在指定的估算时间分界下各为 50/50。K6 对时间分界敏感，须结合第 5.2 节的误差说明解读
+- 网页仿真测试：最终版 4997/5000，识别率 99.94%，加权处理帧率 27.94 FPS；纯 PS 版 909/1000，识别率 90.90%，加权处理帧率 3.07 FPS
+- 真实传送带测试：实际 K4 独立组为 50/50；实际 K5、K6 在指定的估算时间分界下各为 50/50。K6 对时间分界敏感，须结合第 5.2 节的误差说明解读
 
 ## 3. 仓库结构
 
-本仓库的 `main` 是源码复现版本，最终提交仓库地址始终是 <https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition>。
+本仓库的 `main` 是源码复现版本，最终提交仓库地址始终是 [https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition](https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition)。
 
 源码只保留可复现设计所需的内容：RTL、HLS、PS/Linux 软件、驱动、必要导出 IP、构建脚本、约束、测试和关键验证记录。Vivado 生成工程、DCP、参考位流/XSA/FSBL/DTB、已编译启动与运行包、Linux SDK 归档均不在源码树内；基础依赖从同一仓库的固定 Release 单独下载（合计约 335 MB，解包后占用数 GiB 工作空间）。
 
@@ -99,21 +99,21 @@ ZYNQ7020-QR_Code_Recogition/
 
 ### 3.1 构建入口 `build/scripts/`
 
-| 脚本 | 用途 |
-| --- | --- |
-| `verify_release.py` | 校验源码清单（逐文件 SHA-256）、体积上限、RTL 副本一致性、内核配置哈希与 IP 引用完整性 |
-| `update_manifest.py` | 有意修改源码或文档后重建 `build/MANIFEST.json` |
-| `fetch_dependencies.py` | 下载、校验或离线导入 `kernel-sdk` 与 `platform` 基础依赖 |
-| `kernel_sdk_bundle.py` | 校验 kernel-sdk 分片，按需拼回完整归档（`--assemble`） |
-| `build_arm.py` | 编译 ARM 用户态库与程序；`--native`/`--host` 为主机端构建 |
-| `build_kernel.py` | 用固定 SDK 的内核源码编译驱动模块并检查 vermagic |
-| `build_hls.py` | HLS native 参考、C 仿真、综合、IP 导出与 C/RTL 对比 |
-| `hardware.py` | 从本地源码与导出 IP 创建并实现 Vivado 工程（不依赖保存的工程） |
-| `qualify.py` | 资源、setup/hold、DRC、bus skew 与 CDC 资格检查 |
-| `package_boot.py` | 打包启动文件 |
-| `r4_package_runtime.py` | 装配板端运行包并校验身份绑定 |
-| `stage_board.py` | 校验启动文件与运行包绑定，装配板端安装目录 |
-| `r4_rtl_test.py` | 用 Vivado XSim 运行 RTL testbench |
+| 脚本                      | 用途                                                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| `verify_release.py`     | 校验源码清单（逐文件 SHA-256）、体积上限、RTL 副本一致性、内核配置哈希与 IP 引用完整性 |
+| `update_manifest.py`    | 有意修改源码或文档后重建 `build/MANIFEST.json`                                       |
+| `fetch_dependencies.py` | 下载、校验或离线导入 `kernel-sdk` 与 `platform` 基础依赖                           |
+| `kernel_sdk_bundle.py`  | 校验 kernel-sdk 分片，按需拼回完整归档（`--assemble`）                               |
+| `build_arm.py`          | 编译 ARM 用户态库与程序；`--native`/`--host` 为主机端构建                          |
+| `build_kernel.py`       | 用固定 SDK 的内核源码编译驱动模块并检查 vermagic                                       |
+| `build_hls.py`          | HLS native 参考、C 仿真、综合、IP 导出与 C/RTL 对比                                    |
+| `hardware.py`           | 从本地源码与导出 IP 创建并实现 Vivado 工程（不依赖保存的工程）                         |
+| `qualify.py`            | 资源、setup/hold、DRC、bus skew 与 CDC 资格检查                                        |
+| `package_boot.py`       | 打包启动文件                                                                           |
+| `r4_package_runtime.py` | 装配板端运行包并校验身份绑定                                                           |
+| `stage_board.py`        | 校验启动文件与运行包绑定，装配板端安装目录                                             |
+| `r4_rtl_test.py`        | 用 Vivado XSim 运行 RTL testbench                                                      |
 
 `ac_*.py`、`r4_validate_cdc.py`、`r4_device_tree.py`、`r4_hw_connections.py`、`r4_record_hw.py` 是上述入口的内部步骤，一般不直接调用。
 
@@ -127,14 +127,14 @@ ZYNQ7020-QR_Code_Recogition/
 
 整体使用两套操作系统：开发主机为 **Ubuntu 22.04 LTS x86-64**（本项目源码复现验证主机为 22.04.5）；AX7021B 板端为 **ARM32 PYNQ/Linux**，原系统基于 Ubuntu 22.04 Jammy 根文件系统和 PYNQ 3.1.1 适配。板端最终运行的定制内核必须与本仓库驱动一致，版本见第 4.3 节。
 
-| 项目 | 要求 |
-| --- | --- |
-| 硬件 | AX7021B / XC7Z020CLG484-2、项目使用的摄像头、HDMI 显示器、带匹配系统的 SD 卡、电源与网线；USB-UART 用于启动排查 |
-| PL / HLS 工具 | AMD Vivado、Vitis 2025.2；RTL 仿真使用 Vivado XSim，HLS 重建使用 Vitis HLS |
-| 主机 Python | Python 3.10 或更新版本；使用独立虚拟环境安装验证与串口依赖 |
-| ARM 编译器 | Cortex-A9 / ARMv7 / NEON / hard-float；参考工具链为 AMD GCC 13.4.0 |
-| 启动打包工具 | XSCT、bootgen、dtc、mkimage、GNU binutils |
-| 板端运行环境 | systemd、SSH、Python 3、NumPy；项目运行解释器为 `/usr/local/share/pynq-venv/bin/python` |
+| 项目          | 要求                                                                                                            |
+| ------------- | --------------------------------------------------------------------------------------------------------------- |
+| 硬件          | AX7021B / XC7Z020CLG484-2、项目使用的摄像头、HDMI 显示器、带匹配系统的 SD 卡、电源与网线；USB-UART 用于启动排查 |
+| PL / HLS 工具 | AMD Vivado、Vitis 2025.2；RTL 仿真使用 Vivado XSim，HLS 重建使用 Vitis HLS                                      |
+| 主机 Python   | Python 3.10 或更新版本；使用独立虚拟环境安装验证与串口依赖                                                      |
+| ARM 编译器    | Cortex-A9 / ARMv7 / NEON / hard-float；参考工具链为 AMD GCC 13.4.0                                              |
+| 启动打包工具  | XSCT、bootgen、dtc、mkimage、GNU binutils                                                                       |
+| 板端运行环境  | systemd、SSH、Python 3、NumPy；项目运行解释器为 `/usr/local/share/pynq-venv/bin/python`                       |
 
 先安装 Ubuntu 通用依赖：
 
@@ -194,12 +194,12 @@ python3 -B build/scripts/build_arm.py --native --label native
 
 **先准备可启动的 AX7021B PYNQ/Linux 系统，再重建本项目的软件、驱动和启动固件。** 当前 `source-deps-v1` Release 的内容如下（2026-11-02 核对）：
 
-| Release 附件 | 用途 |
-| --- | --- |
+| Release 附件                             | 用途                                                             |
+| ---------------------------------------- | ---------------------------------------------------------------- |
 | `kernel-sdk.tar.gz.part01`～`part08` | 匹配内核的源码、配置和已准备的模块编译环境，用于重建三个项目驱动 |
-| `u-boot.elf` | 启动文件打包使用的 U-Boot 输入 |
-| `zImage` | 已编译的匹配 Linux 内核，后续封装进 `image.ub` |
-| `boot.scr` | SD 卡启动脚本 |
+| `u-boot.elf`                           | 启动文件打包使用的 U-Boot 输入                                   |
+| `zImage`                               | 已编译的匹配 Linux 内核，后续封装进 `image.ub`                 |
+| `boot.scr`                             | SD 卡启动脚本                                                    |
 
 上述附件**不包含完整 SD 卡镜像或 PYNQ 根文件系统**，不能直接写入空白 SD 卡启动。已有匹配系统时，可沿用根文件系统和分区布局，再按本节与第 4.4、4.5 节更新驱动、启动文件和应用。使用空白卡时，还需取得匹配 AX7021B 的完整系统镜像，或根文件系统、板级配置与系统构建输入；这些输入目前没有在本仓库 Release 中提供，因此本仓库当前不能独立完成“空白 SD 卡到完整 PYNQ 系统”的构建。
 
@@ -229,11 +229,11 @@ python3 -B build/scripts/build_arm.py --label arm
 python3 -B build/scripts/build_kernel.py --label modules
 ```
 
-| 输出目录 | 内容 |
-| --- | --- |
-| `build/work/arm/` | ARM 用户态程序、库与编译校验记录 |
-| `build/work/kernel/modules/module/` | `ax7021b_qr_capture.ko`、`ax7021b_qr_fitness.ko`、`ax7021b_camera_display.ko` |
-| `build/work/kernel/modules/build_receipt.json` | 驱动源码、模块哈希与内核版本校验记录 |
+| 输出目录                                         | 内容                                                                                |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `build/work/arm/`                              | ARM 用户态程序、库与编译校验记录                                                    |
+| `build/work/kernel/modules/module/`            | `ax7021b_qr_capture.ko`、`ax7021b_qr_fitness.ko`、`ax7021b_camera_display.ko` |
+| `build/work/kernel/modules/build_receipt.json` | 驱动源码、模块哈希与内核版本校验记录                                                |
 
 驱动使用固定 SDK 编译，脚本检查 ARM ELF 架构、ABI 与模块 vermagic。最终内核版本必须为：
 
@@ -365,14 +365,14 @@ sudo zynq-qr-data --disable
 
 ### 4.6 预期输出效果
 
-| 检查项 | 预期现象 |
-| --- | --- |
-| HDMI 画面 | 摄像头 1280×720 彩色预览；输入约 30 FPS，HDMI 输出时序为 60 Hz |
-| 识别叠加 | 成功解码的目标显示绿色框和最多 9 个 ASCII 字符的标签 |
-| `sudo zynq-qr status` | 正常启动后 `state` 为 `running`，`artifact_integrity` 为 `true`；停止后为 `stopped` |
-| `sudo zynq-qr-camera status` | 显示 AEC/AGC 或固定配置及初始化回读 |
-| `sudo zynq-qr-data` | 启用后跟随新的解码事件，每行输出完整载荷文本；同一发布事件去重，控制字符转义 |
-| 日志 | `sudo zynq-qr logs` 可查看服务启动与识别日志，用于定位相机、驱动或运行包问题 |
+| 检查项                         | 预期现象                                                                                      |
+| ------------------------------ | --------------------------------------------------------------------------------------------- |
+| HDMI 画面                      | 摄像头 1280×720 彩色预览；输入约 30 FPS，HDMI 输出时序为 60 Hz                               |
+| 识别叠加                       | 成功解码的目标显示绿色框和最多 9 个 ASCII 字符的标签                                          |
+| `sudo zynq-qr status`        | 正常启动后 `state` 为 `running`，`artifact_integrity` 为 `true`；停止后为 `stopped` |
+| `sudo zynq-qr-camera status` | 显示 AEC/AGC 或固定配置及初始化回读                                                           |
+| `sudo zynq-qr-data`          | 启用后跟随新的解码事件，每行输出完整载荷文本；同一发布事件去重，控制字符转义                  |
+| 日志                           | `sudo zynq-qr logs` 可查看服务启动与识别日志，用于定位相机、驱动或运行包问题                |
 
 例如，将内容为 `WAREHOUSE-001` 的二维码放入摄像头视野，正常解码后 HDMI 对应位置出现绿色框及长度受限的标签；终端数据输出应包含完整的 `WAREHOUSE-001`。HDMI 标签长度与终端完整载荷长度不同。
 
@@ -380,16 +380,16 @@ sudo zynq-qr-data --disable
 
 ## 5. 测试结果与数据文件
 
-提交数据位于 [`data/`](data/)，包括 24 个 UTF-8 BOM 编码的 CSV 和 1 个真实传送带导出校验 JSON。网页光学回放和真实传送带分别统计；不同尺寸、不同版本中的同编号纸码不合并为一个目标。
+提交数据位于 [`data/`](data/)，包括 24 个 UTF-8 BOM 编码的 CSV 和 1 个真实传送带导出校验 JSON。网页仿真测试和真实传送带分别统计；不同尺寸、不同版本中的同编号纸码不合并为一个目标。
 
-### 5.1 网页光学回放：最终版与纯 PS
+### 5.1 网页仿真测试：最终版与纯 PS
 
 测试日期为 **2026-10-27**。原虚拟传送带生成器经显示器全屏播放，再由摄像头拍摄识别。
 
-| 版本与范围 | 有效组数 | 展示目标数 | 成功 | 漏检 | 识别率 | 加权处理 FPS |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| 最终版（PS+PL）累计 | 50 | 5000 | 4997 | 3 | 99.94% | 27.939 |
-| 纯 PS 版 | 10 | 1000 | 909 | 91 | 90.90% | 3.074 |
+| 版本与范围          | 有效组数 | 展示目标数 | 成功 | 漏检 | 识别率 | 加权处理 FPS |
+| ------------------- | -------: | ---------: | ---: | ---: | -----: | -----------: |
+| 最终版（PS+PL）累计 |       50 |       5000 | 4997 |    3 | 99.94% |       27.939 |
+| 纯 PS 版            |       10 |       1000 |  909 |   91 | 90.90% |        3.074 |
 
 最终版累计包含原有 1000 次和后续追加 4000 次，每组 100 个目标；纯 PS 保留原有 1000 次，没有追加到 5000 次。场景为源画布 1280×760、源 K4～K6、固定双车道、密度 6、旋转角度 −180°～180°，无额外模糊或污损。生成器速度取 6.0、4.8、3.6、2.4、1.8，单位为生成器单位，源画布像素速度为速度值乘 135，不能换算为本次实物传送带速度。
 
@@ -399,11 +399,11 @@ sudo zynq-qr-data --disable
 
 测试日期为 **2026-11-03**。三种尺寸各 50 张二维码纸片，编号均为 1～50，组内顺序不限。完整内容沿用原虚拟传送带场景网页的编号规则。尺寸名称已按实物更正：**原称 K3→实际 K4，原称 K4→实际 K5，原称 K5→实际 K6**；CSV 的 `k` 为更正后的实际标签，`recorded_k` 保留更正前的名称。K 在此是纸片尺寸标签，不是实测相机像素/模块。
 
-| 实际尺寸 | 成功/展示 | 识别率 | 记录方式 |
-| --- | ---: | ---: | --- |
-| K4 | 50/50 | 100.00% | 独立分组，原始日志已封存 |
-| K5 | 50/50 | 100.00% | 连续日志恢复后，按指定时间的估算分界统计 |
-| K6 | 50/50 | 100.00% | 连续日志恢复后，按指定时间的估算分界统计；对分界敏感 |
+| 实际尺寸 | 成功/展示 |  识别率 | 记录方式                                             |
+| -------- | --------: | ------: | ---------------------------------------------------- |
+| K4       |     50/50 | 100.00% | 独立分组，原始日志已封存                             |
+| K5       |     50/50 | 100.00% | 连续日志恢复后，按指定时间的估算分界统计             |
+| K6       |     50/50 | 100.00% | 连续日志恢复后，按指定时间的估算分界统计；对分界敏感 |
 
 K5、K6 连续测试的指定切换时间为 **北京时间 2026-11-03 20:56:10**：估算时间不晚于该时刻的解码记录归 K5，晚于该时刻的归 K6。板卡随后关机/重启，恢复时从上次启动的持久 journal 中取回 3338 条记录，核对了原启动编号、识别进程 PID 和相机 source epoch。
 
@@ -417,20 +417,20 @@ K5、K6 连续测试的指定切换时间为 **北京时间 2026-11-03 20:56:10*
 
 ### 5.3 数据索引
 
-| 数据文件 | 内容 |
-| --- | --- |
-| [test_summary.csv](data/test_summary.csv) | 网页最终版 5000 次与纯 PS 1000 次总览 |
-| [final_5000_groups.csv](data/final_5000_groups.csv)、[final_5000_targets.csv](data/final_5000_targets.csv) | 最终版 50 组、5000 条目标明细 |
-| [final_5000_by_speed.csv](data/final_5000_by_speed.csv)、[final_5000_by_speed_k.csv](data/final_5000_by_speed_k.csv) | 最终版按生成器速度及源 K 分档 |
-| [pure_ps_1000_groups.csv](data/pure_ps_1000_groups.csv)、[pure_ps_1000_targets.csv](data/pure_ps_1000_targets.csv) | 纯 PS 10 组、1000 条目标明细 |
-| [pure_ps_1000_by_speed.csv](data/pure_ps_1000_by_speed.csv)、[pure_ps_1000_by_speed_k.csv](data/pure_ps_1000_by_speed_k.csv) | 纯 PS 按生成器速度及源 K 分档 |
-| [paired_1000_comparison.csv](data/paired_1000_comparison.csv)、[missed_targets.csv](data/missed_targets.csv) | 网页原有 1000 次同序列对照及两版本漏检清单 |
-| [physical_summary.csv](data/physical_summary.csv)、[physical_targets.csv](data/physical_targets.csv) | 实际 K4～K6 汇总和 150 条目标结果 |
-| [physical_K4_targets.csv](data/physical_K4_targets.csv)、[physical_K5_targets.csv](data/physical_K5_targets.csv)、[physical_K6_targets.csv](data/physical_K6_targets.csv) | 三种实际尺寸各 50 条明细 |
-| [physical_continuous_decode_events.csv](data/physical_continuous_decode_events.csv) | 恢复的连续测试逐解码记录、估算时间和归组 |
-| [physical_boundary_sensitivity.csv](data/physical_boundary_sensitivity.csv)、[physical_label_corrections.csv](data/physical_label_corrections.csv) | 分界敏感性与尺寸标签更正映射 |
-| [measurement_notes.csv](data/measurement_notes.csv)、[data_dictionary.csv](data/data_dictionary.csv)、[source_manifest.csv](data/source_manifest.csv) | 网页测试口径、字段含义和来源哈希 |
-| [physical_measurement_notes.csv](data/physical_measurement_notes.csv)、[physical_source_manifest.csv](data/physical_source_manifest.csv)、[physical_export_audit.json](data/physical_export_audit.json) | 真实测试口径、恢复来源及导出文件校验 |
+| 数据文件                                                                                                                                                                                             | 内容                                       |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| [test_summary.csv](data/test_summary.csv)                                                                                                                                                             | 网页最终版 5000 次与纯 PS 1000 次总览      |
+| [final_5000_groups.csv](data/final_5000_groups.csv)、[final_5000_targets.csv](data/final_5000_targets.csv)                                                                                             | 最终版 50 组、5000 条目标明细              |
+| [final_5000_by_speed.csv](data/final_5000_by_speed.csv)、[final_5000_by_speed_k.csv](data/final_5000_by_speed_k.csv)                                                                                   | 最终版按生成器速度及源 K 分档              |
+| [pure_ps_1000_groups.csv](data/pure_ps_1000_groups.csv)、[pure_ps_1000_targets.csv](data/pure_ps_1000_targets.csv)                                                                                     | 纯 PS 10 组、1000 条目标明细               |
+| [pure_ps_1000_by_speed.csv](data/pure_ps_1000_by_speed.csv)、[pure_ps_1000_by_speed_k.csv](data/pure_ps_1000_by_speed_k.csv)                                                                           | 纯 PS 按生成器速度及源 K 分档              |
+| [paired_1000_comparison.csv](data/paired_1000_comparison.csv)、[missed_targets.csv](data/missed_targets.csv)                                                                                           | 网页原有 1000 次同序列对照及两版本漏检清单 |
+| [physical_summary.csv](data/physical_summary.csv)、[physical_targets.csv](data/physical_targets.csv)                                                                                                   | 实际 K4～K6 汇总和 150 条目标结果          |
+| [physical_K4_targets.csv](data/physical_K4_targets.csv)、[physical_K5_targets.csv](data/physical_K5_targets.csv)、[physical_K6_targets.csv](data/physical_K6_targets.csv)                               | 三种实际尺寸各 50 条明细                   |
+| [physical_continuous_decode_events.csv](data/physical_continuous_decode_events.csv)                                                                                                                   | 恢复的连续测试逐解码记录、估算时间和归组   |
+| [physical_boundary_sensitivity.csv](data/physical_boundary_sensitivity.csv)、[physical_label_corrections.csv](data/physical_label_corrections.csv)                                                     | 分界敏感性与尺寸标签更正映射               |
+| [measurement_notes.csv](data/measurement_notes.csv)、[data_dictionary.csv](data/data_dictionary.csv)、[source_manifest.csv](data/source_manifest.csv)                                                   | 网页测试口径、字段含义和来源哈希           |
+| [physical_measurement_notes.csv](data/physical_measurement_notes.csv)、[physical_source_manifest.csv](data/physical_source_manifest.csv)、[physical_export_audit.json](data/physical_export_audit.json) | 真实测试口径、恢复来源及导出文件校验       |
 
 ### 5.4 计数与验证口径
 
@@ -450,17 +450,17 @@ K5、K6 连续测试的指定切换时间为 **北京时间 2026-11-03 20:56:10*
 
 ## 7. 文档索引
 
-| 文档 | 内容 |
-| --- | --- |
-| [data/test_summary.csv](data/test_summary.csv) | 网页最终版 5000 次与纯 PS 1000 次汇总 |
-| [data/physical_summary.csv](data/physical_summary.csv) | 真实 K4～K6 汇总，须结合第 5.2 节和时间误差说明 |
-| [DEPENDENCIES.md](DEPENDENCIES.md) | 基础依赖清单、下载、离线导入与精简范围 |
-| [skill/README.md](skill/README.md) | 13 个可独立复用的工程技能包及其使用方式 |
-| [board/results/INTERFACES.md](board/results/INTERFACES.md) | PS/PL 运行接口与显示 ABI |
-| [src/hls/README.md](src/hls/README.md) | fitness 评分 HLS 核的接口、操作与状态码 |
-| [src/platform/kernel/README.md](src/platform/kernel/README.md) | 内核配置与 `Module.symvers` 的来源与校验 |
-| [src/hardware/pynq_ax7021b/hardware/qr_desktop/README.md](src/hardware/pynq_ax7021b/hardware/qr_desktop/README.md) | AX7021B 二维码视频硬件源文件 |
-| [src/hardware/pynq_ax7021b/hardware/desktop/README.md](src/hardware/pynq_ax7021b/hardware/desktop/README.md) | R4 HDMI 直显与叠加源文件 |
+| 文档                                                                                                              | 内容                                            |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| [data/test_summary.csv](data/test_summary.csv)                                                                     | 网页最终版 5000 次与纯 PS 1000 次汇总           |
+| [data/physical_summary.csv](data/physical_summary.csv)                                                             | 真实 K4～K6 汇总，须结合第 5.2 节和时间误差说明 |
+| [DEPENDENCIES.md](DEPENDENCIES.md)                                                                                 | 基础依赖清单、下载、离线导入与精简范围          |
+| [skill/README.md](skill/README.md)                                                                                 | 13 个可独立复用的工程技能包及其使用方式         |
+| [board/results/INTERFACES.md](board/results/INTERFACES.md)                                                         | PS/PL 运行接口与显示 ABI                        |
+| [src/hls/README.md](src/hls/README.md)                                                                             | fitness 评分 HLS 核的接口、操作与状态码         |
+| [src/platform/kernel/README.md](src/platform/kernel/README.md)                                                     | 内核配置与 `Module.symvers` 的来源与校验      |
+| [src/hardware/pynq_ax7021b/hardware/qr_desktop/README.md](src/hardware/pynq_ax7021b/hardware/qr_desktop/README.md) | AX7021B 二维码视频硬件源文件                    |
+| [src/hardware/pynq_ax7021b/hardware/desktop/README.md](src/hardware/pynq_ax7021b/hardware/desktop/README.md)       | R4 HDMI 直显与叠加源文件                        |
 
 ## 8. 许可证
 
