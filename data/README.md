@@ -68,4 +68,4 @@ data/
 
 真实 K4/K5/K6 的分表记录已合并到 `real/targets.csv`，需要时按 `k` 筛选。网页漏检目标可从两个 `targets.csv` 中筛选 `recognized=0`，原独立漏检表不再重复保存。旧导出校验 JSON 的组统计已保留在 CSV，其创建时间记录在 `metadata/notes.csv`；已失效的导出文件 hash 不再保留。
 
-本次整理仅统一结构和表示方式，没有重测或补造原始测量值。数据文件和文档仍可继续修改，旧源码清单中的 data 条目已移除，暂未生成新的 hash。
+本次整理仅统一结构和表示方式，没有重测或补造原始测量值。数据文件的当前 SHA-256 已纳入 `build/MANIFEST.json`，可使用 `python3 -B build/scripts/verify_release.py --hash-only` 校验。历史来源清单中的 hash 仍为原始记录；文档不参与 Hash 校验。

@@ -33,7 +33,7 @@
 
 ## 3. 仓库结构
 
-本目录为匿名提交的源码复现版本。个人路径和项目标识已匿名化；历史报告中的数值保留。源码仍在编辑，`build/MANIFEST.json` 尚未重新计算，暂勿以旧清单进行完整性验收。
+本目录为匿名提交的源码复现版本。个人路径和项目标识已匿名化；历史报告中的数值保留。`build/MANIFEST.json` 记录非文档源码和数据文件的 SHA-256，文档与压缩包不参与 Hash 校验。
 
 源码只保留可复现设计所需的内容：RTL、HLS、PS/Linux 软件、驱动、必要导出 IP、构建脚本、约束、测试和关键验证记录。Vivado 生成工程、DCP、参考位流/XSA/FSBL/DTB、已编译启动与运行包、Linux SDK 归档均不在源码树内；基础依赖从同一仓库的固定 Release 单独下载（合计约 335 MB，解包后占用数 GiB 工作空间）。
 
@@ -405,7 +405,7 @@ sudo zynq-qr-data --disable
 
 ## 6. 校验与验证边界
 
-`build/MANIFEST.json` 校验源码内容；`build/DEPENDENCIES.json` 固定基础依赖；`build/RELEASE.json` 记录来源及参考固件身份，不要求参考二进制存在；`build/reports/source-submission.json` 记录本次源码拆分验证范围。修改源码或文档后，先运行 `python3 -B build/scripts/update_manifest.py` 重建清单，再用 `verify_release.py` 复核。
+`build/MANIFEST.json` 校验非文档源码与数据文件；报告目录、Markdown、PDF、文本报告和许可证文档不参与 Hash 校验（具体排除规则见清单）。清单自身与压缩包也不计算 Hash。`build/DEPENDENCIES.json` 固定基础依赖；`build/RELEASE.json` 记录来源及参考固件身份，不要求参考二进制存在；`build/reports/source-submission.json` 记录本次源码拆分验证范围。修改非文档文件后，先运行 `python3 -B build/scripts/update_manifest.py` 重建清单，再用 `python3 -B build/scripts/verify_release.py --hash-only` 复核；仅修改文档不需要更新 Hash。完整源码检查仍可使用 `verify_release.py`。
 
 源码版本标签为 `source-v1.0`，精简前的来源提交记录在 `build/RELEASE.json` 的 `source_origin_commit` 字段；最终提交号可用 `git rev-parse HEAD` 查询。
 

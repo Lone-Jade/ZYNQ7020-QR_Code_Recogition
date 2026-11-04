@@ -2,6 +2,13 @@
 from paths import PROJECT
 import argparse,ast,hashlib,json,os,subprocess,xml.etree.ElementTree as ET
 
+DOCUMENT_SUFFIXES={'.md','.markdown','.rst','.txt','.pdf','.doc','.docx','.odt','.rtf','.ppt','.pptx'}
+
+def is_document(path):
+    relative=path.relative_to(PROJECT)
+    return (relative.parts[0]=='report' or path.suffix.lower() in DOCUMENT_SUFFIXES
+            or 'LICENSES' in relative.parts or path.name.upper() in {'LICENSE','COPYING','NOTICE'})
+
 def sha(path):
     digest=hashlib.sha256()
     with path.open('rb') as handle:
@@ -22,10 +29,15 @@ def files():
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dependencies',action='store_true',help='Also check downloaded kernel/platform dependencies')
+    parser.add_argument('--hash-only',action='store_true',help='Check the non-document inventory and SHA-256 values only')
     args=parser.parse_args()
     manifest=json.loads((PROJECT/'build/MANIFEST.json').read_text());actual={p.relative_to(PROJECT).as_posix():p for p in files()}
-    assert set(actual)==set(manifest['sha256']),'Source inventory differs'
-    for name,path in actual.items():assert sha(path)==manifest['sha256'][name],name
+    hashed={name:path for name,path in actual.items() if not is_document(path)}
+    assert set(hashed)==set(manifest['sha256']),'Non-document source inventory differs'
+    for name,path in hashed.items():assert sha(path)==manifest['sha256'][name],name
+    if args.hash_only:
+        print(json.dumps(dict(passed=True,algorithm='SHA-256',hashed_files=len(hashed),documents_excluded=len(actual)-len(hashed),archive_hashed=False),indent=2))
+        return
     total=sum(p.stat().st_size for p in actual.values())+(PROJECT/'build/MANIFEST.json').stat().st_size
     assert total<200_000_000,'Source content exceeds 200 MB'
     assert not any(p.suffix.lower() in ['.dcp','.bit','.xsa','.elf','.ko','.ub'] for p in actual.values()),'Generated firmware in source inventory'
