@@ -1,0 +1,4 @@
+﻿scenario,version,group_id,run_id,k,expected,matched,missed,recall_percent,unexpected_unique,processing_fps,fps_sample_seconds,recorded_k,presented_confirmed,exposure_limit_ms_configured,gain_limit_configured,status,split_basis,time_is_estimate,clock_anchor_window_seconds,recognized_min_over_anchor_window,recognized_max_over_anchor_window,evidence_dir
+real,final,K4,K3-20261103-204924,4,50,50,0,100,0,29.70282929621248,147.4607,3,50,4,8,complete,independent_group,0,,50,50,K3-20261103-204924
+real,final,K5,K4-20261103-205352,5,50,50,0,100,0,28.86281516170705,130.964356,4,50,4,8,recovered_user_time_split_estimated,host_20:56:10_using_saved_receive_anchor,1,15.805006265640259,50,50,K4-20261103-205352
+real,final,K6,K4-20261103-205352,6,50,50,0,100,0,25.511659560698355,63.500377,5,50,4,8,recovered_user_time_split_estimated,host_20:56:10_using_saved_receive_anchor,1,15.805006265640259,42,50,K4-20261103-205352

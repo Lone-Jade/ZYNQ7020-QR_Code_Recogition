@@ -1,0 +1,6 @@
+﻿scenario,version,generator_speed,source_speed_px_s,groups,expected,matched,missed,recall_percent,unexpected_unique,processing_fps
+web,final,6,810,10,1000,997,3,99.7,0,29.980038430706067
+web,final,4.8,648,10,1000,1000,0,100,0,29.984520362882606
+web,final,3.6,486,10,1000,1000,0,100,0,29.958361513293006
+web,final,2.4,324,10,1000,1000,0,100,0,26.78114004734289
+web,final,1.8,243,10,1000,1000,0,100,0,23.715721411369714

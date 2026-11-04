@@ -380,7 +380,7 @@ static int fitness_probe(struct platform_device *pdev){
  f->reset=devm_gpiod_get(f->dev,"reset",GPIOD_OUT_LOW);if(IS_ERR(f->reset))return PTR_ERR(f->reset);
  ret=dma_set_mask_and_coherent(f->dev,DMA_BIT_MASK(32));if(ret)return ret;
  f->cpu=dmam_alloc_coherent(f->dev,QR_FITNESS_MAX_WORDS*4,&f->dma,GFP_KERNEL);if(!f->cpu)return -ENOMEM;
- f->job_abi=of_device_is_compatible(pdev->dev.of_node,"xiwei,c04-fitness-v2");
+ f->job_abi=of_device_is_compatible(pdev->dev.of_node,"qrproject,c04-fitness-v2");
  if(f->job_abi){f->job_cpu=dmam_alloc_coherent(f->dev,QR_FITNESS_GRID_WORDS*4,&f->job_dma,GFP_KERNEL);if(!f->job_cpu)return -ENOMEM;}
  mutex_init(&f->lock);init_completion(&f->done);atomic_set(&f->opened,0);
  irq=platform_get_irq(pdev,0);if(irq<0)return irq;
@@ -398,7 +398,7 @@ static int fitness_probe(struct platform_device *pdev){
  ret=misc_register(&f->misc);if(ret)return ret;platform_set_drvdata(pdev,f);return 0;
 }
 static void fitness_remove(struct platform_device *pdev){struct fitness *f=platform_get_drvdata(pdev);misc_deregister(&f->misc);recover(f);}
-static const struct of_device_id fitness_match[]={{.compatible="xiwei,c04-fitness-v2"},{.compatible="xiwei,c04-fitness-v1"},{}};
+static const struct of_device_id fitness_match[]={{.compatible="qrproject,c04-fitness-v2"},{.compatible="qrproject,c04-fitness-v1"},{}};
 MODULE_DEVICE_TABLE(of,fitness_match);
 static struct platform_driver fitness_driver={.probe=fitness_probe,.remove=fitness_remove,.driver={.name="ax7021b_qr_fitness",.of_match_table=fitness_match,.suppress_bind_attrs=true}};
 module_platform_driver(fitness_driver);

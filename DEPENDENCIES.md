@@ -1,9 +1,9 @@
 # 基础依赖与精简范围
 
-本项目源码与基础平台环境分开提供，均使用同一 GitHub 仓库：
+本项目源码与基础平台环境分开提供。匿名提交材料不包含个人仓库地址：
 
-- 仓库：<https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition>
-- 固定依赖 Release：[source-deps-v1](https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition/releases/tag/source-deps-v1)
+- 优先使用下文的 `--source-dir` 离线导入。在线获取时，设置环境变量 `ZYNQ_QR_DEPENDENCY_REPOSITORY=组织或账号/仓库名`，或填写 `build/DEPENDENCIES.json` 的 `repository`。
+- 固定依赖 Release：`source-deps-v1`。
 - 机器可读锁定清单：`build/DEPENDENCIES.json`，逐文件记录字节数、SHA-256。
 
 ## kernel-sdk

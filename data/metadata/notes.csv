@@ -1,0 +1,12 @@
+﻿scenario,topic,note
+web,input,网页由显示器播放，再由摄像头拍摄；ps与final为相同生成序列的独立相机采集，并非相同像素帧。
+web,comparison,comparison.csv仅比较原有1000个目标；final总明细包含追加4000个目标。
+web,speed,generator_speed为生成器单位；source_speed_px_s为源画布像素/秒，等于前者乘135；不得当作实物速度。
+web,k,k为源画布像素/二维码模块，来自原pitch；不代表相机采集图中的像素/模块。
+real,k,k为实际纸码尺寸标签K4/K5/K6；recorded_k保留采集时误标的3/4/5，不能据此替换实际k。
+real,time,K5/K6按主机20:56:10分组，使用保存的接收时间锚点估算；锚点窗口约15.805秒。保留time_is_estimate及边界不确定字段。
+real,boundary,K6锚点窗口内可确认目标数为42至50；表内150/150为既有分组口径，须结合边界不确定性使用。
+real,events,decode_events.csv为连续记录，含重复解码；不是目标数。K4无此连续事件明细，其targets来自独立组记录。
+all,fps,组帧率为各组记录值；汇总按fps_sample_seconds加权。网页原汇总值不变，真实总帧率由三组按采样跨度加权计算；不是算法核最大吞吐量。
+all,source_manifest,source_file为外部历史证据归档路径，不是提交目录中的文件；sha256是原始历史记录，本次未重新计算或校验。
+real,historical_export_created,2026-11-03T21:23:04.234269+08:00

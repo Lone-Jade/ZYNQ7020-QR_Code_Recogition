@@ -1,0 +1,22 @@
+﻿original_file,output_file,action,note
+pure_ps_1000_groups.csv,web/ps/groups.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+pure_ps_1000_targets.csv,web/ps/targets.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+pure_ps_1000_by_speed.csv,web/ps/by_speed.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+pure_ps_1000_by_speed_k.csv,web/ps/by_speed_k.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+final_5000_groups.csv,web/final/groups.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+final_5000_targets.csv,web/final/targets.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+final_5000_by_speed.csv,web/final/by_speed.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+final_5000_by_speed_k.csv,web/final/by_speed_k.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+physical_summary.csv,real/groups.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+physical_targets.csv,real/targets.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+physical_continuous_decode_events.csv,real/decode_events.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+physical_K4_targets.csv,real/targets.csv,deduplicate,按 k=4 筛选；原分表与总表记录完全相同
+physical_K5_targets.csv,real/targets.csv,deduplicate,按 k=5 筛选；原分表与总表记录完全相同
+physical_K6_targets.csv,real/targets.csv,deduplicate,按 k=6 筛选；原分表与总表记录完全相同
+source_manifest.csv,web/source_manifest.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+physical_source_manifest.csv,real/source_manifest.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+paired_1000_comparison.csv,web/comparison.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+test_summary.csv,summary.csv,normalize,保留全部记录及原始测量精度；字段映射见字段字典
+missed_targets.csv,web/ps/targets.csv;web/final/targets.csv,deduplicate,筛选 recognized=0 即漏检目标；原漏检表已逐条核对
+physical_export_audit.json,real/groups.csv;metadata/notes.csv,remove_obsolete_audit,组统计与groups一致；旧导出文件hash不再适用，不重新计算
+data_dictionary.csv,metadata/fields.csv,expand_dictionary,覆盖全部现有字段及单位、类型、缺失值与原字段名

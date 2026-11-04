@@ -44,6 +44,7 @@ def destination(group, asset):
 
 def acquire(group, source_dir=None, check=False):
     meta = lock()
+    repository = os.environ.get('ZYNQ_QR_DEPENDENCY_REPOSITORY') or meta.get('repository', '')
     if group not in meta['groups']:
         raise ValueError('Unknown dependency group: ' + group)
     result = []
@@ -57,6 +58,8 @@ def acquire(group, source_dir=None, check=False):
             if check:
                 raise ValueError('Missing or corrupt dependency: ' + str(target)
                                  + '; run build/scripts/fetch_dependencies.py --group ' + group)
+            if not source_dir and not repository:
+                raise ValueError('Anonymous submission: use --source-dir for offline import, or set ZYNQ_QR_DEPENDENCY_REPOSITORY to owner/repository')
             target.parent.mkdir(parents=True, exist_ok=True)
             with tempfile.TemporaryDirectory(prefix='.download-', dir=target.parent) as folder:
                 temporary = Path(folder) / asset['file']
@@ -64,10 +67,10 @@ def acquire(group, source_dir=None, check=False):
                     shutil.copyfile(Path(source_dir) / asset['file'], temporary)
                 elif authenticated:
                     subprocess.run([gh, 'release', 'download', meta['release_tag'],
-                                    '--repo', meta['repository'], '--pattern', asset['file'],
+                                    '--repo', repository, '--pattern', asset['file'],
                                     '--dir', folder], check=True)
                 else:
-                    url = ('https://github.com/' + meta['repository'] + '/releases/download/'
+                    url = ('https://github.com/' + repository + '/releases/download/'
                            + meta['release_tag'] + '/' + asset['file'])
                     try:
                         request = urllib.request.Request(url, headers={'User-Agent': 'zynq-qr-source-build'})

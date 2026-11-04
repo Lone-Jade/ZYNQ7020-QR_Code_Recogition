@@ -656,7 +656,7 @@
             xlnx,gpio-width = <1>; xlnx,all-outputs = <1>; phandle = <0x80>;
         };
         fitness@43c10000 {
-            compatible = "xiwei,c04-fitness-v2";
+            compatible = "qrproject,c04-fitness-v2";
             reg = <0x43c10000 0x10000 0x43c30000 0x10000>;
             reg-names = "control", "profile";
             clocks = <1 15>; clock-names = "s_axi_aclk";
@@ -677,7 +677,7 @@
 			clock-names = "s_axi_aclk";
 			reg = <0x43c00000 0x10000 0x43c20000 0x10000>;
 			reg-names = "capture", "timing";
-			compatible = "xiwei,c04-qr-capture-r4";
+			compatible = "qrproject,c04-qr-capture-r4";
 		};
 
 		gpio@41220000 {
@@ -746,7 +746,7 @@
 		};
 
 		dma@43000000 {
-            compatible = "xiwei,c04-camera-display-r4";
+            compatible = "qrproject,c04-camera-display-r4";
             reg = <0x43000000 0x10000 0x43c40000 0x10000>;
             reg-names = "vdma", "osd";
             interrupt-parent = <4>;

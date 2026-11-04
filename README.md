@@ -33,7 +33,7 @@
 
 ## 3. 仓库结构
 
-本仓库的 `main` 是源码复现版本，最终提交仓库地址始终是 [https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition](https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition)。
+本目录为匿名提交的源码复现版本。个人路径和项目标识已匿名化；历史报告中的数值保留。源码仍在编辑，`build/MANIFEST.json` 尚未重新计算，暂勿以旧清单进行完整性验收。
 
 源码只保留可复现设计所需的内容：RTL、HLS、PS/Linux 软件、驱动、必要导出 IP、构建脚本、约束、测试和关键验证记录。Vivado 生成工程、DCP、参考位流/XSA/FSBL/DTB、已编译启动与运行包、Linux SDK 归档均不在源码树内；基础依赖从同一仓库的固定 Release 单独下载（合计约 335 MB，解包后占用数 GiB 工作空间）。
 
@@ -93,7 +93,7 @@ ZYNQ7020-QR_Code_Recogition/
 │   ├── requirements-host.txt  主机侧串口依赖
 │   └── ssh_control.sh      主机侧 SSH 辅助脚本
 ├── skill/                  13 个可独立复用的工程技能包（见 skill/README.md）
-├── data/                   网页最终版5000次、纯PS1000次及真实传送带K4～K6测试CSV与校验记录
+├── data/                   网页纯PS、网页最终版及真实传送带测试CSV，按场景分类
 └── report/                 设计报告与过程记录预留目录
 ```
 
@@ -161,13 +161,11 @@ command -v xsct bootgen dtc mkimage
 
 应能找到上述工具，Vivado 应显示 2025.2。Windows 11 用户可在 WSL2 Ubuntu 或 Linux 虚拟机中按本节 Linux 流程操作；本仓库未验证 PowerShell 原生完整构建。HDMI 是板端视频输出，命令行登录使用 SSH 或 USB-UART。
 
-### 4.2 克隆仓库和安装依赖
+### 4.2 获取源码和安装依赖
 
-以下使用 HTTPS 克隆；如果已配置 SSH 密钥，可改用注释中的 SSH 命令，**两种方式任选一种**：
+解压提交材料后进入源码目录：
 
 ```bash
-git clone https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition.git
-# git clone git@github.com:Lone-Jade/ZYNQ7020-QR_Code_Recogition.git
 cd ZYNQ7020-QR_Code_Recogition
 
 python3 -B build/scripts/verify_release.py
@@ -178,7 +176,7 @@ python3 -B build/scripts/fetch_dependencies.py
 python3 -B build/scripts/verify_release.py --dependencies
 ```
 
-固定基础依赖来自同一仓库的 [source-deps-v1 Release](https://github.com/Lone-Jade/ZYNQ7020-QR_Code_Recogition/releases/tag/source-deps-v1)，共 335,002,276 字节，解包和构建还需数 GiB 以上工作空间。脚本按 `build/DEPENDENCIES.json` 核对大小和 SHA-256，缓存到 `build/deps/`。仓库为私有时，需先安装 GitHub CLI，并用有读取权限的账户执行 `gh auth login`；公开仓库可直接下载。分组下载和离线导入方法见 [DEPENDENCIES.md](DEPENDENCIES.md)。
+固定基础依赖使用 `source-deps-v1` 版本；匿名材料不附带个人仓库地址，可按 [DEPENDENCIES.md](DEPENDENCIES.md) 离线导入或配置依赖仓库，共 335,002,276 字节，解包和构建还需数 GiB 以上工作空间。脚本按 `build/DEPENDENCIES.json` 核对大小和 SHA-256，缓存到 `build/deps/`。仓库为私有时，需先安装 GitHub CLI，并用有读取权限的账户执行 `gh auth login`；公开仓库可直接下载。分组下载和离线导入方法见 [DEPENDENCIES.md](DEPENDENCIES.md)。
 
 只做 Python / Native 软件验证时，可以跳过基础依赖下载与 AMD 工具安装，执行：
 
@@ -380,7 +378,7 @@ sudo zynq-qr-data --disable
 
 ## 5. 测试结果与数据文件
 
-提交数据位于 [`data/`](data/)，包括 24 个 UTF-8 BOM 编码的 CSV 和 1 个真实传送带导出校验 JSON。网页仿真测试和真实传送带分别统计；不同尺寸、不同版本中的同编号纸码不合并为一个目标。
+提交数据位于 [`data/`](data/)，统一为 18 个 UTF-8 BOM 编码的 CSV，按 `web/ps`（纯 PS）、`web/final`（最终版）和 `real`（真实传送带）分类。总览见 [data/summary.csv](data/summary.csv)，结构与字段口径见 [data/README.md](data/README.md)。网页与真实测试分别统计；不同尺寸、不同版本中的同编号纸码不合并为一个目标。
 
 ### 5.1 网页仿真测试：最终版与纯 PS
 
@@ -397,7 +395,7 @@ sudo zynq-qr-data --disable
 
 ### 5.2 真实传送带：实际 K4～K6
 
-测试日期为 **2026-11-03**。三种尺寸各 50 张二维码纸片，编号均为 1～50，组内顺序不限。完整内容沿用原虚拟传送带场景网页的编号规则。
+测试日期为 **2026-11-03**。三种尺寸各 50 张二维码纸片，编号均为 1～50，组内顺序不限。完整内容沿用原虚拟传送带场景网页的编号规则。K5/K6 的分组使用估算时间，锚点不确定窗口约为 15.805 秒；K6 在窗口内可确认目标数为 42～50，下表沿用既有分组口径。详见 [测量说明](data/metadata/notes.csv)。
 
 | 实际尺寸 | 成功/展示 |  识别率 |
 | -------- | --------: | ------: |
@@ -417,8 +415,8 @@ sudo zynq-qr-data --disable
 
 | 文档                                                                                                              | 内容                                            |
 | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| [data/test_summary.csv](data/test_summary.csv)                                                                     | 网页最终版 5000 次与纯 PS 1000 次汇总           |
-| [data/physical_summary.csv](data/physical_summary.csv)                                                             | 真实 K4～K6 汇总，须结合第 5.2 节和时间误差说明 |
+| [data/summary.csv](data/summary.csv)                                                                     | 网页纯 PS、网页最终版与真实测试总览           |
+| [data/real/groups.csv](data/real/groups.csv)                                                             | 真实 K4～K6 分组统计，时间误差见 data/metadata/notes.csv |
 | [DEPENDENCIES.md](DEPENDENCIES.md)                                                                                 | 基础依赖清单、下载、离线导入与精简范围          |
 | [skill/README.md](skill/README.md)                                                                                 | 13 个可独立复用的工程技能包及其使用方式         |
 | [board/results/INTERFACES.md](board/results/INTERFACES.md)                                                         | PS/PL 运行接口与显示 ABI                        |
@@ -429,7 +427,7 @@ sudo zynq-qr-data --disable
 
 ## 8. 许可证
 
-本仓库以 [MIT License](LICENSE) 发布，Copyright (c) 2026 Lone-Jade。
+本仓库以 [MIT License](LICENSE) 发布，Copyright (c) 2026 Project Contributors。
 
 第三方与派生组件保留各自许可证，不因本仓库的 MIT 声明而改变：
 

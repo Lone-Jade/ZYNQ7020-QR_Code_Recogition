@@ -3,7 +3,7 @@
   "scope": "Each R4 CDC max-delay rule checked on the selected final routed checkpoint; full CDC diagnostics generated for separate topology review",
   "full_cdc_diagnostics": "build/cdc-final-v1/full-cdc.txt",
   "cdc_topology_review_pending": false,
-  "reference": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/ax7021b_linux_qr_desktop/ax7021b_linux_qr_desktop.runs/impl_1/qr_desktop_top_routed.dcp",
+  "reference": "/home/builder/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/ax7021b_linux_qr_desktop/ax7021b_linux_qr_desktop.runs/impl_1/qr_desktop_top_routed.dcp",
   "reference_sha256": "eaea8883dedb47230971b2faf4d179e02f9fe8dfc18ed712fb88c3037a6d3d6a",
   "constraint_sha256": "af8eecaa8f432d61068488e7496b37eee2dd7dc5e2644960bed62500f957b564",
   "critical_warnings": 0,

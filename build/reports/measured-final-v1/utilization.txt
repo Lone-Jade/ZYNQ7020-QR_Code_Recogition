@@ -2,8 +2,8 @@ Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanc
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
 | Date         : Sun Oct 25 19:09:52 2026
-| Host         : xiwei-virtual-machine running 64-bit Ubuntu 22.04.5 LTS
-| Command      : report_utilization -file /home/xiwei/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/ax7021b_linux_qr_desktop/utilization.txt
+| Host         : build-host running 64-bit Ubuntu 22.04.5 LTS
+| Command      : report_utilization -file /home/builder/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/ax7021b_linux_qr_desktop/utilization.txt
 | Design       : qr_desktop_top
 | Device       : xc7z020clg484-2
 | Speed File   : -2

@@ -69,7 +69,7 @@
         "depth": 3
       }
     ],
-    "ip": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-AC-FITNESS/build/r3-hls-compact-v3/component/hls/impl/ip",
+    "ip": "/home/builder/FPGA_Competition/linux_bringup/development/C04-AC-FITNESS/build/r3-hls-compact-v3/component/hls/impl/ip",
     "ip_component_sha256": "b51d4719ccef5fe5821577cbf93ca4c2bc06173d2cb6253b54ba272c273f2d62",
     "registers_sha256": "107b537506087b3abc71f0606481edd3ff8297842a1d767146a61eade3915514",
     "rtl_grid_versions": [
@@ -99,10 +99,10 @@
       "qr_fitness_csynth.xml": "98415b68033ebe4d6c32aea0bfaab188c0f69262eec81c66a78acdc9e6a7e91d",
       "qr_fitness_cosim.rpt.txt": "4feb0833d89d0e36532b8a8c4229847720cca892c61ac3fca6e6146cf4b54cf4"
     },
-    "r3_kernel_source": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-AC-FITNESS/r3/hls/qr_fitness.cpp",
+    "r3_kernel_source": "/home/builder/FPGA_Competition/linux_bringup/development/C04-AC-FITNESS/r3/hls/qr_fitness.cpp",
     "kernel_header_sha256": "055e299b297f0e859550c37c3080f5538732f5ce9e3e1cc650c4a4c73fe58a84",
     "tree_header_sha256": "3055a3c096055fe2bcab62615ecefc8526e961fbcc37fe6b092bb4132990920a",
-    "tool_executable": "/home/xiwei/tools/2025.2/Vitis/bin/vitis-run",
+    "tool_executable": "/home/builder/tools/2025.2/Vitis/bin/vitis-run",
     "tool_version": "2025.2",
     "part": "xc7z020clg484-2",
     "clock_period_ns": 10.0,

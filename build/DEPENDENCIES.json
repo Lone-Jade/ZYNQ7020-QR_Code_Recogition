@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "repository": "Lone-Jade/ZYNQ7020-QR_Code_Recogition",
+  "repository": "",
   "release_tag": "source-deps-v1",
   "kernel_release": "6.12.40-xilinx-ax7021b-pynq-hdmi-g5c57b943fc68",
   "groups": {

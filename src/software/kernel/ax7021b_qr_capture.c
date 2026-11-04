@@ -742,7 +742,7 @@ static int ax7021b_qr_probe(struct platform_device *pdev)
 		if (ioread32(qr->timing_regs)!=0xAC040001U ||
 		    ioread32(qr->timing_regs+4)!=1) return -ENODEV;
 	}
-	qr->source_tags=of_device_is_compatible(pdev->dev.of_node,"xiwei,c04-qr-capture-r4");
+	qr->source_tags=of_device_is_compatible(pdev->dev.of_node,"qrproject,c04-qr-capture-r4");
  if(qr->source_tags&&ioread32(qr->regs+0x234)!=0xAC040401U)return -ENODEV;
  pl_abi = ioread32(qr->regs + QR_PL_ABI_REGISTER);
 	if (pl_abi != AX7021B_QR_PL_ABI_VERSION)
@@ -767,7 +767,7 @@ static int ax7021b_qr_probe(struct platform_device *pdev)
      qr->gray_offset!=(qr->color_layout?QR_WIDTH*2U:0U)||
      ioread32(qr->regs+0x220)!=0)return -ENODEV;
  }
- if(of_device_is_compatible(pdev->dev.of_node,"xiwei,c04-qr-capture-r3") &&
+ if(of_device_is_compatible(pdev->dev.of_node,"qrproject,c04-qr-capture-r3") &&
     (!qr->color_layout || !(qr->layout_caps&2)))return -ENODEV;
  qr->frame_bytes=qr->stride*QR_STORAGE_HEIGHT;
  qr->slot_bytes=PAGE_ALIGN(qr->frame_bytes);
@@ -861,8 +861,8 @@ static void ax7021b_qr_remove(struct platform_device *pdev)
 }
 
 static const struct of_device_id ax7021b_qr_of_match[] = {
- {.compatible = "xiwei,c04-qr-capture-r4"},
- {.compatible = "xiwei,c04-qr-capture-r3"},
+ {.compatible = "qrproject,c04-qr-capture-r4"},
+ {.compatible = "qrproject,c04-qr-capture-r3"},
 	{ .compatible = "alinx,ax7021b-qr-capture" },
 	{ }
 };

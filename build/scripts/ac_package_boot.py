@@ -6,8 +6,8 @@ def make_device_tree(s,fitness=False,r3=False,capture_layout="gray",capture_axis
  s=s[:start]+sub+s[end:]
  if r3:
   if capture_layout=='color':
-   s=s.replace('compatible = "alinx,ax7021b-qr-capture";', 'compatible = "xiwei,c04-qr-capture-r3";')
-   assert 'compatible = "xiwei,c04-qr-capture-r3";' in s
+   s=s.replace('compatible = "alinx,ax7021b-qr-capture";', 'compatible = "qrproject,c04-qr-capture-r3";')
+   assert 'compatible = "qrproject,c04-qr-capture-r3";' in s
  if capture_axis_bits==32:
   channel=s.index('dma-channel@43010000');end=s.index('\n\t\t\t};',channel)
   node=s[channel:end];assert node.count('xlnx,datawidth = <0x08>;')==1
@@ -23,7 +23,7 @@ def make_device_tree(s,fitness=False,r3=False,capture_layout="gray",capture_axis
             xlnx,gpio-width = <1>; xlnx,all-outputs = <1>; phandle = <0x80>;
         };
         fitness@43c10000 {
-            compatible = "xiwei,c04-fitness-v1";
+            compatible = "qrproject,c04-fitness-v1";
             reg = <0x43c10000 0x10000 0x43c30000 0x10000>;
             reg-names = "control", "profile";
             clocks = <1 15>; clock-names = "s_axi_aclk";
@@ -31,6 +31,6 @@ def make_device_tree(s,fitness=False,r3=False,capture_layout="gray",capture_axis
             reset-gpios = <0x80 0 0>;
         };
 '''+s[start:]
-  if r3:s=s.replace('compatible = "xiwei,c04-fitness-v1";', 'compatible = "xiwei,c04-fitness-v2";')
+  if r3:s=s.replace('compatible = "qrproject,c04-fitness-v1";', 'compatible = "qrproject,c04-fitness-v2";')
  return s
 

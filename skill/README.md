@@ -1,3 +1,5 @@
+sshiji
+
 # 工程技能包
 
 本目录收录 13 个可独立使用的工程技能包，覆盖问题诊断、性能分析、软硬件构建、接口与数据完整性、Linux 运行和交付。每个技能包都是自包含的文件夹，由 Markdown 文档与可选的 Python 脚本组成；脚本只使用 Python 标准库，阅读与执行都不需要网络、服务或专有工具。
@@ -18,21 +20,21 @@
 
 ## 用途索引
 
-| 技能 | 用途 |
-| --- | --- |
-| [systematic-debugging](systematic-debugging/SKILL.md) | 核实故障观测、定位首个失败边界、设计判别实验并验证修复 |
-| [performance-bottleneck-analysis](performance-bottleneck-analysis/SKILL.md) | 统一吞吐与延迟口径、定位瓶颈、比较优化前后的正确性和性能 |
-| [ai-assisted-engineering](ai-assisted-engineering/SKILL.md) | 明确需求、约束与验收条件，组织实现、验证和阶段交付 |
-| [hardware-build-and-handoff](hardware-build-and-handoff/SKILL.md) | 核对硬件设计、软件接口、构建产物与交付证据是否匹配 |
-| [vivado-vitis-flow](vivado-vitis-flow/SKILL.md) | RTL、C/C++ HLS 或受支持的 MATLAB 流程生成 IP，并完成 Vivado 与 Vitis 构建链 |
-| [streaming-data-path-verification](streaming-data-path-verification/SKILL.md) | 验证流握手、背压、数据打包、帧边界、复位与跨时钟域行为 |
-| [shared-buffer-lifecycle](shared-buffer-lifecycle/SKILL.md) | 检查共享缓冲所有权、DMA 可见性、租约、完成与停止恢复 |
-| [ps-pl-interface-contract](ps-pl-interface-contract/SKILL.md) | 检查寄存器、描述符、内存布局、完成语义与事务身份 |
-| [camera-hdmi-diagnosis](camera-hdmi-diagnosis/SKILL.md) | 分层诊断摄像头、像素格式、存储传输、处理和 HDMI 输出 |
-| [linux-runtime-and-release](linux-runtime-and-release/SKILL.md) | 处理 Linux ABI、驱动和用户态集成、服务策略及分阶段发布 |
-| [network-streaming-diagnosis](network-streaming-diagnosis/SKILL.md) | 定位链路、收包、完整帧、缓冲与处理过载问题 |
-| [result-association-and-publication](result-association-and-publication/SKILL.md) | 检查解码结果、实体与位置关联、发布队列及显示提交 |
-| [algorithm-porting-and-replay](algorithm-porting-and-replay/SKILL.md) | 冻结同一输入，比较算法阶段、数值语义与目标移植结果，回放失败样例 |
+| 技能                                                                             | 用途                                                                        |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| [systematic-debugging](systematic-debugging/SKILL.md)                             | 核实故障观测、定位首个失败边界、设计判别实验并验证修复                      |
+| [performance-bottleneck-analysis](performance-bottleneck-analysis/SKILL.md)       | 统一吞吐与延迟口径、定位瓶颈、比较优化前后的正确性和性能                    |
+| [ai-assisted-engineering](ai-assisted-engineering/SKILL.md)                       | 明确需求、约束与验收条件，组织实现、验证和阶段交付                          |
+| [hardware-build-and-handoff](hardware-build-and-handoff/SKILL.md)                 | 核对硬件设计、软件接口、构建产物与交付证据是否匹配                          |
+| [vivado-vitis-flow](vivado-vitis-flow/SKILL.md)                                   | RTL、C/C++ HLS 或受支持的 MATLAB 流程生成 IP，并完成 Vivado 与 Vitis 构建链 |
+| [streaming-data-path-verification](streaming-data-path-verification/SKILL.md)     | 验证流握手、背压、数据打包、帧边界、复位与跨时钟域行为                      |
+| [shared-buffer-lifecycle](shared-buffer-lifecycle/SKILL.md)                       | 检查共享缓冲所有权、DMA 可见性、租约、完成与停止恢复                        |
+| [ps-pl-interface-contract](ps-pl-interface-contract/SKILL.md)                     | 检查寄存器、描述符、内存布局、完成语义与事务身份                            |
+| [camera-hdmi-diagnosis](camera-hdmi-diagnosis/SKILL.md)                           | 分层诊断摄像头、像素格式、存储传输、处理和 HDMI 输出                        |
+| [linux-runtime-and-release](linux-runtime-and-release/SKILL.md)                   | 处理 Linux ABI、驱动和用户态集成、服务策略及分阶段发布                      |
+| [network-streaming-diagnosis](network-streaming-diagnosis/SKILL.md)               | 定位链路、收包、完整帧、缓冲与处理过载问题                                  |
+| [result-association-and-publication](result-association-and-publication/SKILL.md) | 检查解码结果、实体与位置关联、发布队列及显示提交                            |
+| [algorithm-porting-and-replay](algorithm-porting-and-replay/SKILL.md)             | 冻结同一输入，比较算法阶段、数值语义与目标移植结果，回放失败样例            |
 
 ## 使用方式
 
@@ -76,4 +78,4 @@ Get-ChildItem -LiteralPath .\skill -Directory | ForEach-Object {
 - 技能包不附带 Vivado、Vitis、MATLAB、板端工具链或 Python 第三方库，也不授予硬件、器件或工具链授权。
 - 静态检查、仿真、目标编译与物理上板分别验证不同边界；使用时记录实际执行的检查与未覆盖项。
 - 各包的 `references/provenance.md` 说明能力范围、来源与验证限制。
-- 文档描述的是通用工程方法与判据，不替代实际测量、完整实现审查或光学板测。
+- 文档描述的是通用工程方法与判据，不替代实际测量、完整实现审查或实际板测。

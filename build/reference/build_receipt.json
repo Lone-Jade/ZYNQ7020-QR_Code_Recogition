@@ -6,7 +6,7 @@
     "boot.scr": "4c7ed60cad10872084bf727b2c9ab0eca9eab992635cf3abf67dfe7ed9cc7807",
     "system.dts": "21a9f1980efa98fdb7e6b0c5a3748e31b8219e393f80c27de734e269431bb470"
   },
-  "xsa": "/home/xiwei/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/output/ax7021b_linux_qr_desktop.xsa",
+  "xsa": "/home/builder/FPGA_Competition/linux_bringup/development/C04-R4-FINALIZE/build/final-v1/output/ax7021b_linux_qr_desktop.xsa",
   "xsa_sha256": "c115c0c7d532399d71d72dd2f27c0f02de62d7d7b879df2646b807a8f520ef9f",
   "fsbl_builder_sha256": "54974c3bacad8731d1060d083644f7d3fe9deeb9cbd1683099966fd220ec4eb2",
   "fsbl_elf32_arm_checked": true,

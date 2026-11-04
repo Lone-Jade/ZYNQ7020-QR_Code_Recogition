@@ -289,7 +289,7 @@ static void display_remove(struct platform_device *pdev)
  }
  release_clients(d);mutex_unlock(&d->lock);
 }
-static const struct of_device_id display_match[]={{.compatible="xiwei,c04-camera-display-r4"},{}};
+static const struct of_device_id display_match[]={{.compatible="qrproject,c04-camera-display-r4"},{}};
 MODULE_DEVICE_TABLE(of,display_match);
 static struct platform_driver display_driver={.probe=display_probe,.remove_new=display_remove,.driver={.name="ax7021b-camera-display",.of_match_table=display_match}};
 module_platform_driver(display_driver);
