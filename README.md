@@ -94,7 +94,7 @@ ZYNQ7020-QR_Code_Recogition/
 │   └── ssh_control.sh      主机侧 SSH 辅助脚本
 ├── skill/                  13 个可独立复用的工程技能包（见 skill/README.md）
 ├── data/                   网页纯PS、网页最终版及真实传送带测试CSV，按场景分类
-└── report/                 设计报告与过程记录预留目录
+└── report/                 设计报告与大模型协作记录
 ```
 
 ### 3.1 构建入口 `build/scripts/`
